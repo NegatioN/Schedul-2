@@ -4,5 +4,11 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
+    <style name="statText">
+        <item name="android:textSize">10sp</item>
+    </style>
+    <style name="nameText">
+        <item name="android:textSize">20sp</item>
+    </style>
 
 </resources>
