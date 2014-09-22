@@ -2,6 +2,8 @@ package main.schedul.joakim.information;
 
 import android.text.format.Time;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by NegatioN on 21.09.2014.
  * The class represents a single user-defined chain that can generate experience based on doing the defined task.
@@ -76,5 +78,17 @@ public class Chain {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public long getCurrentExperience(){
+        return xp.getTotalXp();
+    }
+
+    public String getTotalHours(){
+        DecimalFormat df = new DecimalFormat("#.00");
+        double hours = getTotalMins() / 60;
+
+        return df.format(hours);
+
     }
 }
