@@ -15,14 +15,16 @@ public class Chain {
     private Experience xp;
     private int priority, currentChain;
     private Time lastUpdated;
+    private User user;
 
-    public Chain(String name, int priority, String description){
+    public Chain(String name, int priority, String description, User user){
         this.name = name;
         this.priority = priority;
         totalMins = 0;
         xp = new Experience();
         this.description = description;
         currentChain = 0;
+        this.user = user;
     }
 
     /*

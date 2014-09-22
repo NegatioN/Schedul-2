@@ -1,42 +1,24 @@
 package main.schedul.joakim.schedul2;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-
-import main.schedul.joakim.information.Chain;
-import main.schedul.joakim.logic.ChainListAdapter;
 
 
-public class Schedul extends Activity {
-
-    private ArrayList<Chain> chains;
+public class CreateChain extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedul);
-
-        chains = new ArrayList<Chain>();
-
-        testData(chains);
-
-        ListView lvChains = (ListView) findViewById(R.id.lvChains);
-        lvChains.setAdapter(new ChainListAdapter(this,chains));
-
-
+        setContentView(R.layout.activity_create_chain);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.schedul, menu);
+        getMenuInflater().inflate(R.menu.create_chain, menu);
         return true;
     }
 
@@ -49,16 +31,6 @@ public class Schedul extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
-        else if(id == R.id.action_newchain){
-            Intent i = new Intent(this, CreateChain.class);
-            startActivity(i);
-        }
         return super.onOptionsItemSelected(item);
     }
-
-    private void testData(ArrayList<Chain> chains) {
-        Chain testchain = new Chain("Fotball", 2, "Masse bull");
-        chains.add(testchain);
-    }
-
 }

@@ -5,8 +5,10 @@ package main.schedul.joakim.information;
  */
 public class Experience {
     private long totalXp;
+    private User user;
 
-    public Experience(){
+    public Experience(User user){
+        this.user = user;
         totalXp = 0;
     }
 
@@ -30,6 +32,7 @@ public class Experience {
 
     //simply adds xp to the total count
     public void updateTotalXp(double taskXp) {
+        user.setTotalExperience(user.getTotalExperience() + (long) taskXp);
         this.totalXp += (long) taskXp;
     }
 }
