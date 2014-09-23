@@ -1,6 +1,6 @@
 package main.schedul.joakim.information;
 
-import java.util.logging.Level;
+import java.util.ArrayList;
 
 /**
  * Created by NegatioN on 22.09.2014.
@@ -10,20 +10,27 @@ public class User {
     //TODO skeleton
 
     private String name;
-    private long totalExperience;
     private Level lvl;
+    private ArrayList<Chain> userChains;
+
+    public ArrayList<Chain> getUserChains() {
+        return userChains;
+    }
 
     public User(String name){
+        userChains = new ArrayList<Chain>();
         this.name = name;
-        totalExperience = 0;
+        lvl = new Level();
     }
 
+    //gets all user chains and computes total of each
     public long getTotalExperience() {
-        return totalExperience;
-    }
+        long totalExperience = 0;
+        for(Chain chain : userChains){
+            totalExperience += chain.getCurrentExperience();
+        }
 
-    public void setTotalExperience(long totalExperience) {
-        this.totalExperience = totalExperience;
+        return totalExperience;
     }
 
     public String getName() {
@@ -34,11 +41,11 @@ public class User {
         this.name = name;
     }
 
-    public Level getLvl() {
-        return lvl;
+    public int getLvl() {
+        return lvl.getLevel();
     }
 
-    public void setLvl(Level lvl) {
-        this.lvl = lvl;
+    public void updateLevel(int experience){
+        lvl.passInExperience(experience);
     }
 }

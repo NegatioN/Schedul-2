@@ -5,24 +5,24 @@ package main.schedul.joakim.information;
  */
 public class Experience {
     private long totalXp;
-    private User user;
 
-    public Experience(User user){
-        this.user = user;
+    public Experience(){
         totalXp = 0;
     }
 
     //takes in the user-defined minutes that the current task lasted.
-    //gets the current chain and calulates extra xp based on this too.
-    public void calculateExperience(int minutes, int chain){
+    //gets the current chain and calculates + adds experience to total
+    //returns: current task experience
+    public int calculateExperience(int minutes, int chain){
         double multiplier;
         if(chain == 0)
             multiplier = 1.2;
         else{
             multiplier = (1 + (chain * 0.1));
         }
-
-        updateTotalXp(multiplier*minutes);
+        int taskXp = (int) multiplier*minutes;
+        updateTotalXp(taskXp);
+        return taskXp;
     }
 
 
@@ -32,7 +32,6 @@ public class Experience {
 
     //simply adds xp to the total count
     public void updateTotalXp(double taskXp) {
-        user.setTotalExperience(user.getTotalExperience() + (long) taskXp);
         this.totalXp += (long) taskXp;
     }
 }

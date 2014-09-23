@@ -4,14 +4,13 @@ package main.schedul.joakim.information;
  * Created by NegatioN on 22.09.2014.
  */
 public class Level {
-    //TODO skeleton, implement rules for leveling up lvl*qofficient = reqXP
     private int level;
     private int levelXp;
 
 
     //final static variables for computing the rule-set of experience
     private static final double COEFFICIENT = 1.5d;
-    private static final int BASEEXPERIENCE = 100;
+    private static final int BASE_EXPERIENCE = 100;
 
 
     public Level(){
@@ -32,7 +31,7 @@ public class Level {
 
     //what experience is required to surpass the user's current level?
     public int requiredXp(){
-       return (int) (level*COEFFICIENT*BASEEXPERIENCE);
+       return (int) (level*COEFFICIENT*BASE_EXPERIENCE);
     }
 
     //has the user leveled up?
@@ -50,4 +49,11 @@ public class Level {
         levelXp = levelXp - requiredXp();
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public int getLevelXp() {
+        return levelXp;
+    }
 }

@@ -25,6 +25,8 @@ public class Chain {
         this.description = description;
         currentChain = 0;
         this.user = user;
+
+        addToUser();
     }
 
     /*
@@ -35,10 +37,18 @@ public class Chain {
             currentChain++;
         else
             currentChain = 0;
-        xp.calculateExperience(minutes,currentChain);
+        int taskXp = xp.calculateExperience(minutes,currentChain);
         totalMins+=minutes;
+        this.user.updateLevel(taskXp);
+
+        //set lastupdated to now
+        Time t = new Time();
+        t.setToNow();
+        lastUpdated = t;
     }
 
+
+    //TODO implement ability to user-define chainnable time. chain can be done every 1,2,3 day etc
     //is the task chained to it's last execution?
     private boolean isChained(){
         Time t = new Time();
@@ -93,4 +103,9 @@ public class Chain {
         return df.format(hours);
 
     }
+    //adds chain to user.
+    private void addToUser(){
+        this.user.getUserChains().add(this);
+    }
+
 }
