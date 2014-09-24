@@ -15,31 +15,28 @@ public class Chain {
     private Experience xp;
     private int priority, currentChain;
     private Time lastUpdated;
-    private User user;
 
-    public Chain(String name, int priority, String description, User user){
+
+    public Chain(String name, int priority, String description){
         this.name = name;
         this.priority = priority;
         totalMins = 0;
         xp = new Experience();
         this.description = description;
         currentChain = 0;
-        this.user = user;
-
-        addToUser();
     }
 
     /*
     when useer adds a task to current chain we calculate all stats
      */
-    public void doTask(int minutes){
+    public void doTask(int minutes, User user){
         if(isChained())
             currentChain++;
         else
             currentChain = 0;
         int taskXp = xp.calculateExperience(minutes,currentChain);
         totalMins+=minutes;
-        this.user.updateLevel(taskXp);
+        user.updateLevel(taskXp);
 
         //set lastupdated to now
         Time t = new Time();
@@ -102,10 +99,6 @@ public class Chain {
 
         return df.format(hours);
 
-    }
-    //adds chain to user.
-    private void addToUser(){
-        this.user.getUserChains().add(this);
     }
 
 }

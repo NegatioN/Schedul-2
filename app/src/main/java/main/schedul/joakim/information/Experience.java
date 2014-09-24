@@ -2,6 +2,7 @@ package main.schedul.joakim.information;
 
 /**
  * Created by NegatioN on 21.09.2014.
+ * The Experience object takes care of logging total experience and logic for experience-increase
  */
 public class Experience {
     private long totalXp;

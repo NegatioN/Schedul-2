@@ -7,8 +7,6 @@ import java.util.ArrayList;
  */
 public class User {
 
-    //TODO skeleton
-
     private String name;
     private Level lvl;
     private ArrayList<Chain> userChains;

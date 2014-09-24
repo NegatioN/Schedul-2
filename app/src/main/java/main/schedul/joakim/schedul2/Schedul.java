@@ -1,8 +1,8 @@
 package main.schedul.joakim.schedul2;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -13,7 +13,7 @@ import main.schedul.joakim.information.Chain;
 import main.schedul.joakim.logic.ChainListAdapter;
 
 
-public class Schedul extends Activity {
+public class Schedul extends FragmentActivity {
 
     private ArrayList<Chain> chains;
 

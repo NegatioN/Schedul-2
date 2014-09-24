@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import eu.inmite.android.lib.dialogs.TimePickerDialogFragment;
 import main.schedul.joakim.information.Chain;
 import main.schedul.joakim.schedul2.R;
+import main.schedul.joakim.schedul2.Schedul;
 
 /**
  * Created by NegatioN on 22.09.2014.
@@ -51,13 +53,27 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         hours.setText(HOURS + selectedChain.getTotalHours() );
 
 
+        //TODO make onclicklistener that lets us open menu with input minutes, and makes unselectable until new day starts. interacts with chain-logic
 
+
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayMinuteDialog();
+            }
+        });
 
         return rowView;
     }
 
     public ArrayList<Chain> getChains(){
         return this.chains;
+    }
+
+    private void displayMinuteDialog(){
+        TimePickerDialogFragment.createBuilder(context, ((Schedul) context).getSupportFragmentManager()).setTitle("Tittel").show();
+
+
     }
 
 
