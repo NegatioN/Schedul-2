@@ -11,4 +11,6 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+
+   <item name="sdlDialogStyle">@style/DialogStyleDark</item>
 </resources>

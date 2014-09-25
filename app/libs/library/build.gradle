@@ -1,0 +1,21 @@
+apply plugin: 'com.android.library'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "20"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 19
+        versionName "Inmite Dialogs"
+        versionCode 1
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:19.1.0'
+}

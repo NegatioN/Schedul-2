@@ -1,3 +1,3 @@
-include ':app', ':library', ':dialogs'
-project(':library').projectDir = new File('libraries/library')
-project(':dialogs').projectDir = new File('libraries/demo')
+include ':app', ':dialogs', ':library'
+project(':dialogs').projectDir = new File('app/libs/library')
+project(':library').projectDir = new File('app/libs/library')
