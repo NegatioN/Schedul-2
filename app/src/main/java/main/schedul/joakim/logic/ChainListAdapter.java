@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import eu.inmite.android.lib.dialogs.TimePickerDialogFragment;
 import main.schedul.joakim.information.Chain;
 import main.schedul.joakim.schedul2.R;
 import main.schedul.joakim.schedul2.Schedul;
@@ -71,8 +70,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
     }
 
     private void displayMinuteDialog(){
-        TimePickerDialogFragment.createBuilder(context, ((Schedul) context).getSupportFragmentManager()).setTitle("Tittel").show();
-
+        MinHourDialog.show((Schedul)context);
 
     }
 

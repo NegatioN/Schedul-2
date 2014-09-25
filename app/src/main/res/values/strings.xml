@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_newchain">New Chain</string>
     <string name="title_activity_create_chain">CreateChain</string>
+    <string name="minhour_title">Select Time Spent</string>
 
 </resources>
