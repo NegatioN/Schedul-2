@@ -3,6 +3,7 @@ package main.schedul.joakim.logic;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.NumberPicker;
 
 import eu.inmite.android.lib.dialogs.BaseDialogFragment;
 import eu.inmite.android.lib.dialogs.ISimpleDialogListener;
@@ -23,7 +24,17 @@ public class MinHourDialog extends SimpleDialogFragment{
     @Override
     public BaseDialogFragment.Builder build(BaseDialogFragment.Builder builder) {
         builder.setTitle(R.string.minhour_title);
-        builder.setView(LayoutInflater.from(getActivity()).inflate(R.layout.min_hour_frag_layout, null));
+        View view = (LayoutInflater.from(getActivity()).inflate(R.layout.min_hour_frag_layout, null));
+
+        NumberPicker hours = (NumberPicker)view.findViewById(R.id.npHour);
+        NumberPicker minutes = (NumberPicker) view.findViewById(R.id.npMinute);
+
+        hours.setMaxValue(23);
+        hours.setMinValue(0);
+        minutes.setMaxValue(59);
+        minutes.setMinValue(0);
+
+        builder.setView(view);
         builder.setPositiveButton("OK", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
