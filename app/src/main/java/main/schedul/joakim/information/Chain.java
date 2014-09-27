@@ -1,6 +1,7 @@
 package main.schedul.joakim.information;
 
 import android.text.format.Time;
+import android.util.Log;
 
 import java.text.DecimalFormat;
 
@@ -49,10 +50,13 @@ public class Chain {
      */
     //TODO  add user stats i bar.
     public void doTask(int minutes, User user){
-        if(isChained())
+        if(isChained()) {
             currentChain++;
+        }
         else
             currentChain = 1;
+
+        Log.d("doTask", currentChain + " combo");
         int taskXp = xp.calculateExperience(minutes,currentChain);
         totalMins+=minutes;
         user.updateLevel(taskXp);
@@ -64,13 +68,14 @@ public class Chain {
     }
 
 
-    //TODO implement ability to user-define chainnable time. chain can be done every 1,2,3 day etc
     //is the task chained to it's last execution?
     private boolean isChained(){
         Time t = new Time();
         t.setToNow();
-        //if more than 24 hours has passed since a user last chained a task, no bonus
-        if((t.toMillis(false) - lastUpdated.toMillis(false) > Time.HOUR * 24 * mustChainDays))
+
+        long chainInMillis = 1000 * 60 * 60  * 24 * mustChainDays;
+        //if more than userdefined hours has passed since a user last chained a task, no bonus
+        if((t.toMillis(false) - lastUpdated.toMillis(false) > chainInMillis))
             return false;
         return true;
     }
@@ -94,10 +99,6 @@ public class Chain {
 
     public long getTotalMins() {
         return totalMins;
-    }
-
-    public void setTotalMins(long totalMins) {
-        this.totalMins = totalMins;
     }
 
     public int getPriority() {

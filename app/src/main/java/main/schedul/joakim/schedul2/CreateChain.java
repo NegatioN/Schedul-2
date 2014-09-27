@@ -3,7 +3,6 @@ package main.schedul.joakim.schedul2;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +17,7 @@ import main.schedul.joakim.information.Chain;
 public class CreateChain extends FragmentActivity {
 
     //TODO create nicer layout for activity
+    //TODO add created chains to main activity. Add to database, and call updateDB on return?
     private Spinner spinner;
     private EditText editText;
     private Button createButton;
@@ -42,7 +42,8 @@ public class CreateChain extends FragmentActivity {
                 //gets user input and creates a new chain
                 int days = spinnerValues.getIndex(spinner.getSelectedItemPosition());
                 String name = editText.getText().toString();
-                Log.d("createChain", name + " = name");
+
+                //has user entered a name yet?
                 if(!isEmpty(editText)) {
                     createChain(name, name, 2, days);
 
