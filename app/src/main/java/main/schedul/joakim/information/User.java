@@ -11,10 +11,6 @@ public class User {
     private Level lvl;
     private ArrayList<Chain> userChains;
 
-    public ArrayList<Chain> getUserChains() {
-        return userChains;
-    }
-
     public User(String name){
         userChains = new ArrayList<Chain>();
         this.name = name;
@@ -24,8 +20,10 @@ public class User {
     //gets all user chains and computes total of each
     public long getTotalExperience() {
         long totalExperience = 0;
-        for(Chain chain : userChains){
-            totalExperience += chain.getCurrentExperience();
+        if(userChains != null || userChains.size() != 0) {
+            for (Chain chain : userChains) {
+                totalExperience += chain.getCurrentExperience();
+            }
         }
 
         return totalExperience;
@@ -45,5 +43,9 @@ public class User {
 
     public void updateLevel(int experience){
         lvl.passInExperience(experience);
+    }
+
+    public ArrayList<Chain> getUserChains() {
+        return userChains;
     }
 }

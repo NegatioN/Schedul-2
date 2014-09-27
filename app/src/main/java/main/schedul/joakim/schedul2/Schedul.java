@@ -10,6 +10,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import main.schedul.joakim.information.Chain;
+import main.schedul.joakim.information.User;
 import main.schedul.joakim.logic.ChainListAdapter;
 
 
@@ -24,10 +25,12 @@ public class Schedul extends FragmentActivity {
 
         chains = new ArrayList<Chain>();
 
-        testData(chains);
+
+        User testUser = new User("Joakim Rishaug");
+        testData(chains, testUser);
 
         ListView lvChains = (ListView) findViewById(R.id.lvChains);
-        lvChains.setAdapter(new ChainListAdapter(this,chains));
+        lvChains.setAdapter(new ChainListAdapter(this,chains, testUser));
 
 
     }
@@ -56,9 +59,10 @@ public class Schedul extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void testData(ArrayList<Chain> chains) {
+    private void testData(ArrayList<Chain> chains, User user) {
         Chain testchain = new Chain("Fotball", 2, "Masse bull");
         chains.add(testchain);
+        testchain.addChainToUser(user);
     }
 
 }

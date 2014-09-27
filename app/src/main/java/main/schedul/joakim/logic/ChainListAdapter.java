@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import main.schedul.joakim.information.Chain;
+import main.schedul.joakim.information.User;
 import main.schedul.joakim.schedul2.R;
 import main.schedul.joakim.schedul2.Schedul;
 
@@ -23,18 +24,21 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
 
     private Context context;
     private ArrayList<Chain> chains;
+    private User user;
+    private ViewGroup parentList;
 
-
-    public ChainListAdapter(Context context, ArrayList<Chain> chains) {
+    public ChainListAdapter(Context context, ArrayList<Chain> chains, User user) {
         super(context, R.layout.row_layout, chains);
         this.context = context;
         this.chains = chains;
+        this.user = user;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Chain selectedChain = chains.get(position);
+        parentList = parent;
+        final Chain selectedChain = chains.get(position);
 
 
         //get all views for the row in our list
@@ -49,7 +53,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         //define information in the views
         name.setText(selectedChain.getName());
         xp.setText(EXPERIENCE + selectedChain.getCurrentExperience());
-        hours.setText(HOURS + selectedChain.getTotalHours() );
+        hours.setText(HOURS + selectedChain.getTotalHours());
 
 
         //TODO make onclicklistener that lets us open menu with input minutes, and makes unselectable until new day starts. interacts with chain-logic
@@ -58,7 +62,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                displayMinuteDialog();
+                displayMinuteDialog(selectedChain, user);
             }
         });
 
@@ -69,8 +73,9 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         return this.chains;
     }
 
-    private void displayMinuteDialog(){
-        MinHourDialog.show((Schedul)context);
+    private void displayMinuteDialog(Chain selectedChain, User user){
+        MinHourDialog.show((Schedul)context, selectedChain, user, this);
+        this.notifyDataSetChanged();
 
     }
 

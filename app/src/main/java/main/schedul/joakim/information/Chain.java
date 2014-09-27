@@ -24,11 +24,16 @@ public class Chain {
         xp = new Experience();
         this.description = description;
         currentChain = 0;
+
+        Time fillerTime = new Time();
+        fillerTime.set(0);
+        lastUpdated = fillerTime;
     }
 
     /*
     when useer adds a task to current chain we calculate all stats
      */
+    //TODO add oppdatering av view i list når xp går opp... add user stats i bar.
     public void doTask(int minutes, User user){
         if(isChained())
             currentChain++;
@@ -100,5 +105,11 @@ public class Chain {
         return df.format(hours);
 
     }
+
+    public void addChainToUser(User user){
+        user.getUserChains().add(this);
+    }
+
+
 
 }
