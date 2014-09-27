@@ -17,6 +17,10 @@ import main.schedul.joakim.logic.ChainListAdapter;
 public class Schedul extends FragmentActivity {
 
     private ArrayList<Chain> chains;
+    public static User CURRENTUSER;
+
+
+    //TODO add user-stats and name in actionbar, or find a solution for placement
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +30,11 @@ public class Schedul extends FragmentActivity {
         chains = new ArrayList<Chain>();
 
 
-        User testUser = new User("Joakim Rishaug");
-        testData(chains, testUser);
+        CURRENTUSER = new User("Joakim Rishaug");
+        testData(chains, CURRENTUSER);
 
         ListView lvChains = (ListView) findViewById(R.id.lvChains);
-        lvChains.setAdapter(new ChainListAdapter(this,chains, testUser));
+        lvChains.setAdapter(new ChainListAdapter(this,chains, CURRENTUSER));
 
 
     }
@@ -60,7 +64,7 @@ public class Schedul extends FragmentActivity {
     }
 
     private void testData(ArrayList<Chain> chains, User user) {
-        Chain testchain = new Chain("Fotball", 2, "Masse bull");
+        Chain testchain = new Chain("Fotball", 2, "Masse bull", 1);
         chains.add(testchain);
         testchain.addChainToUser(user);
     }

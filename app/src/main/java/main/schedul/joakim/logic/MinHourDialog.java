@@ -44,22 +44,25 @@ public class MinHourDialog extends SimpleDialogFragment{
         setupTimePicker(hours,minutes,view);
 
         builder.setView(view);
+
+        //finish input button
         builder.setPositiveButton("OK", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ISimpleDialogListener listener = getDialogListener();
                 if (listener != null) {
-
-                    //TODO define what happens on Onclick
                     listener.onPositiveButtonClicked(0);
                 }
                 int hoursSelected = hours.getValue();
                 int minutesSelected = minutes.getValue();
 
-                chain.doTask((60*hoursSelected + minutesSelected), staticuser);
 
+                //not both counters at zero
+                if((hoursSelected + minutesSelected) > 0) {
+                    chain.doTask((60 * hoursSelected + minutesSelected), staticuser);
+                    cListAdapter.notifyDataSetChanged();
+                }
 
-                cListAdapter.notifyDataSetChanged();
                 Log.d("chain.onclick", hoursSelected + " : " + minutesSelected);
                 Log.d("chain.onclick", chain.getCurrentExperience()+"");
 
@@ -68,17 +71,29 @@ public class MinHourDialog extends SimpleDialogFragment{
                 dismiss();
             }
         });
+
+        //exit button added
+        builder.setNegativeButton("Cancel", new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+
         return builder;
     }
 
-    //defines our custom time-picker from simonvt's library
+    //defines our custom time-picker
     private void setupTimePicker(NumberPicker hp, NumberPicker mp, View inflatedView){
         hp = (NumberPicker) inflatedView.findViewById(R.id.npHour);
         mp = (NumberPicker) inflatedView.findViewById(R.id.npMinute);
 
+
+        //TODO define color of numberpicker numbers-text
         hp.setMinValue(0);
         hp.setMaxValue(23);
-        mp.setMinValue(1);
+        mp.setMinValue(0);
         mp.setMaxValue(59);
 
         hp.setFocusable(true);

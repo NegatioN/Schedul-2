@@ -15,15 +15,29 @@ public class Chain {
     private Experience xp;
     private int priority, currentChain;
     private Time lastUpdated;
+    private int mustChainDays;
 
 
-    public Chain(String name, int priority, String description){
+    public int getMustChainDays() {
+        return mustChainDays;
+    }
+
+    /**
+     * @param name              The name of the Chain, ex "programming", "Soccer", "Japanese-studies"
+     * @param priority          What the priority of the chain is. Will slightly affect experience-gain
+     * @param description       A short description of the chain
+     * @param mustChainDays     What the number of days we can "chain" this task within. ex. input 1 for every day. or 2 for every other day
+     */
+
+    public Chain(String name, int priority, String description, int mustChainDays){
         this.name = name;
         this.priority = priority;
         totalMins = 0;
         xp = new Experience();
         this.description = description;
         currentChain = 0;
+
+        this.mustChainDays = mustChainDays;
 
         Time fillerTime = new Time();
         fillerTime.set(0);
@@ -33,12 +47,12 @@ public class Chain {
     /*
     when useer adds a task to current chain we calculate all stats
      */
-    //TODO add oppdatering av view i list når xp går opp... add user stats i bar.
+    //TODO  add user stats i bar.
     public void doTask(int minutes, User user){
         if(isChained())
             currentChain++;
         else
-            currentChain = 0;
+            currentChain = 1;
         int taskXp = xp.calculateExperience(minutes,currentChain);
         totalMins+=minutes;
         user.updateLevel(taskXp);
@@ -56,7 +70,7 @@ public class Chain {
         Time t = new Time();
         t.setToNow();
         //if more than 24 hours has passed since a user last chained a task, no bonus
-        if((t.toMillis(false) - lastUpdated.toMillis(false) > Time.HOUR * 24))
+        if((t.toMillis(false) - lastUpdated.toMillis(false) > Time.HOUR * 24 * mustChainDays))
             return false;
         return true;
     }
@@ -98,6 +112,8 @@ public class Chain {
         return xp.getTotalXp();
     }
 
+
+    //TODO make this display in proper double-form. Not only as whole integers with .00 behind
     public String getTotalHours(){
         DecimalFormat df = new DecimalFormat("#.00");
         double hours = getTotalMins() / 60;
@@ -108,6 +124,16 @@ public class Chain {
 
     public void addChainToUser(User user){
         user.getUserChains().add(this);
+    }
+
+    //has our chain already been
+    public boolean isUpdatedToday(){
+        Time today = new Time();
+        today.setToNow();
+       if(lastUpdated.yearDay == today.yearDay && lastUpdated.year == today.year)
+           return true;
+        else
+           return false;
     }
 
 

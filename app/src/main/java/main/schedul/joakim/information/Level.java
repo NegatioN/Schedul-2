@@ -44,6 +44,7 @@ public class Level {
             return false;
     }
 
+    //levels up the users, and transfers remaining xp to the next level.
     private void levelUp(){
         level++;
         levelXp = levelXp - requiredXp();

@@ -25,7 +25,6 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
     private Context context;
     private ArrayList<Chain> chains;
     private User user;
-    private ViewGroup parentList;
 
     public ChainListAdapter(Context context, ArrayList<Chain> chains, User user) {
         super(context, R.layout.row_layout, chains);
@@ -34,10 +33,11 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         this.user = user;
     }
 
+    //TODO make chains get created with correct color depending on how long it's been since they were used/updated/chained
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        parentList = parent;
         final Chain selectedChain = chains.get(position);
 
 
@@ -56,7 +56,9 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         hours.setText(HOURS + selectedChain.getTotalHours());
 
 
-        //TODO make onclicklistener that lets us open menu with input minutes, and makes unselectable until new day starts. interacts with chain-logic
+        //TODO make listitem color change if getting close to not being chained. or not chained.
+
+        //TODO implement onTouch /hold listener for reset of previously entered info today, or name-change.
 
 
         rowView.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +75,8 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         return this.chains;
     }
 
+
+    //displays our dialog with minute/hour input for the current chain
     private void displayMinuteDialog(Chain selectedChain, User user){
         MinHourDialog.show((Schedul)context, selectedChain, user, this);
         this.notifyDataSetChanged();
