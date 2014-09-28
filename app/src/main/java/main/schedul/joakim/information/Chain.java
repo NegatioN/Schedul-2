@@ -114,10 +114,9 @@ public class Chain {
     }
 
 
-    //TODO make this display in proper double-form. Not only as whole integers with .00 behind
     public String getTotalHours(){
-        DecimalFormat df = new DecimalFormat("#.00");
-        double hours = getTotalMins() / 60;
+        DecimalFormat df = new DecimalFormat("0.00");
+        double hours = Double.parseDouble(getTotalMins()+"") / 60;
 
         return df.format(hours);
 
