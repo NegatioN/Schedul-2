@@ -56,15 +56,19 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         hours.setText(HOURS + selectedChain.getTotalHours());
 
 
-        //TODO make listitem color change if getting close to not being chained. or not chained.
-
-        //TODO implement onTouch /hold listener for reset of previously entered info today, or name-change.
-
-
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 displayMinuteDialog(selectedChain, user);
+            }
+        });
+
+        //lets a user edit the information of the selected chain.
+        rowView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                displayEditDialog();
+                return false;
             }
         });
 
@@ -80,7 +84,12 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
     private void displayMinuteDialog(Chain selectedChain, User user){
         MinHourDialog.show((Schedul)context, selectedChain, user, this);
         this.notifyDataSetChanged();
+    }
+    //TODO implement onTouch /hold listener for reset of previously entered info today, or name-change.
+    //displays a dialog that lets us edit our currently selected chain
+    private void displayEditDialog(){
 
+        this.notifyDataSetChanged();
     }
 
 

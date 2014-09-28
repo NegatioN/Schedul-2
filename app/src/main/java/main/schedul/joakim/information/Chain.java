@@ -49,6 +49,7 @@ public class Chain {
     when useer adds a task to current chain we calculate all stats
      */
     //TODO  add user stats i bar.
+    //TODO don't let comobo-counter go up endlessly if users adds to chain several times in one day. (define a timelimit for where you can only add one combo)
     public void doTask(int minutes, User user){
         if(isChained()) {
             currentChain++;
