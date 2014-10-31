@@ -21,6 +21,8 @@ public class Schedul extends FragmentActivity {
 
 
     //TODO add user-stats and name in actionbar, or find a solution for placement
+    //TODO add save variables for screen tilt alertdialog.
+    //TODO create database for chains and users
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

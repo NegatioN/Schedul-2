@@ -17,6 +17,7 @@ import main.schedul.joakim.information.Chain;
 public class CreateChain extends FragmentActivity {
 
     //TODO create nicer layout for activity
+    //TODO add save variables when screen tilt.
     //TODO add created chains to main activity. Add to database, and call updateDB on return?
     private Spinner spinner;
     private EditText editText;
@@ -57,6 +58,8 @@ public class CreateChain extends FragmentActivity {
 
 
     }
+
+
 
 
     @Override
