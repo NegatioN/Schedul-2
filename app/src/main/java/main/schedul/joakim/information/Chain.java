@@ -18,6 +18,7 @@ public class Chain {
     private Time lastUpdated;
     private int mustChainDays;
     private static final long DAYMILLIS = 1000 * 60 * 60  * 24;
+    private double minutesSpentToday;
 
 
     public int getMustChainDays() {
@@ -46,9 +47,10 @@ public class Chain {
         lastUpdated = fillerTime;
     }
 
+
     /*
-    when useer adds a task to current chain we calculate all stats
-     */
+        when useer adds a task to current chain we calculate all stats
+         */
     //TODO  add user stats i bar.
     public void doTask(int minutes, User user){
         if(isChained()) {
@@ -56,8 +58,12 @@ public class Chain {
             t.setToNow();
 
             //if user has already chained today, don't give additional chains to bonus the xp-gain.
-            if((t.toMillis(false) - lastUpdated.toMillis(false)) > DAYMILLIS)
-            currentChain++;
+            if((t.toMillis(false) - lastUpdated.toMillis(false)) > DAYMILLIS){
+                currentChain++;
+            }
+            //it's a new day, minutesSpentToday set to 0
+            if(lastUpdated.yearDay < t.yearDay || t.yearDay == 0)
+                minutesSpentToday = 0;
 
         }
         else
@@ -66,6 +72,7 @@ public class Chain {
         Log.d("doTask", currentChain + " combo");
         int taskXp = xp.calculateExperience(minutes,currentChain);
         totalMins+=minutes;
+        minutesSpentToday += minutes;
         user.updateLevel(taskXp);
 
         //set lastupdated to now
@@ -121,6 +128,9 @@ public class Chain {
         return xp.getTotalXp();
     }
 
+    public double getMinutesSpentToday() {
+        return minutesSpentToday;
+    }
 
     public String getTotalHours(){
         DecimalFormat df = new DecimalFormat("0.00");

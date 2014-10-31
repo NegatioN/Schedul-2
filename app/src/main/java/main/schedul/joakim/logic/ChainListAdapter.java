@@ -19,6 +19,8 @@ import main.schedul.joakim.schedul2.Schedul;
  */
 public class ChainListAdapter extends ArrayAdapter<Chain>{
 
+    //TODO let a chain be a "header-object" in list. Sub-goals should be smaller, and the ones we add time to. (also let add time to main?)
+
     private static final String EXPERIENCE = "Experience: ";
     private static final String HOURS = "Hours: ";
 
