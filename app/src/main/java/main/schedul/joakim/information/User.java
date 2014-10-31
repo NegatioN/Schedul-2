@@ -29,6 +29,14 @@ public class User {
         return totalExperience;
     }
 
+    public long getTotalTime(){
+        long totalMinutes = 0;
+        for(Chain chain : userChains){
+            totalMinutes += chain.getTotalMins();
+        }
+        return totalMinutes;
+    }
+
     public String getName() {
         return name;
     }
