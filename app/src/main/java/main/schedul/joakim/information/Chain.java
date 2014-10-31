@@ -17,6 +17,7 @@ public class Chain {
     private int priority, currentChain;
     private Time lastUpdated;
     private int mustChainDays;
+    private static final long DAYMILLIS = 1000 * 60 * 60  * 24;
 
 
     public int getMustChainDays() {
@@ -49,10 +50,15 @@ public class Chain {
     when useer adds a task to current chain we calculate all stats
      */
     //TODO  add user stats i bar.
-    //TODO don't let comobo-counter go up endlessly if users adds to chain several times in one day. (define a timelimit for where you can only add one combo)
     public void doTask(int minutes, User user){
         if(isChained()) {
+            Time t = new Time();
+            t.setToNow();
+
+            //if user has already chained today, don't give additional chains to bonus the xp-gain.
+            if((t.toMillis(false) - lastUpdated.toMillis(false)) > DAYMILLIS)
             currentChain++;
+
         }
         else
             currentChain = 1;
@@ -74,7 +80,8 @@ public class Chain {
         Time t = new Time();
         t.setToNow();
 
-        long chainInMillis = 1000 * 60 * 60  * 24 * mustChainDays;
+        long chainInMillis = DAYMILLIS * mustChainDays;
+
         //if more than userdefined hours has passed since a user last chained a task, no bonus
         if((t.toMillis(false) - lastUpdated.toMillis(false) > chainInMillis))
             return false;

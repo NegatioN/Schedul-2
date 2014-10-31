@@ -11,6 +11,8 @@ public class Experience {
         totalXp = 0;
     }
 
+
+    //TODO make it impossible to add more than 24hours of tasks in a single day.
     //takes in the user-defined minutes that the current task lasted.
     //gets the current chain and calculates + adds experience to total
     //returns: current task experience
