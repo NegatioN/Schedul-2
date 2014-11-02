@@ -57,6 +57,9 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         xp.setText(EXPERIENCE + selectedChain.getCurrentExperience());
         hours.setText(HOURS + selectedChain.getTotalHours());
 
+        //sets the color of the view based on how far it is from expiring
+        rowView.setBackgroundColor(selectedChain.getDisplayColor());
+
 
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
