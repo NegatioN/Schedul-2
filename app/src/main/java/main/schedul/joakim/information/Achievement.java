@@ -10,7 +10,6 @@ import android.media.Image;
 //TODO define a premade list in onCreate somewhere where achievements are spawned.
 //TODO make "badge-page" ala fitocracy for achievements with icons
     //TODO popup on add time-dialog finished with list of badges achieved
-    //TODO create time-achievements in same style as xpachievements
 public class Achievement {
 
     private boolean achieved;

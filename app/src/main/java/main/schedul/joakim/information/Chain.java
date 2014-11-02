@@ -1,5 +1,6 @@
 package main.schedul.joakim.information;
 
+import android.graphics.Color;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -17,8 +18,15 @@ public class Chain {
     private int priority, currentChain;
     private Time lastUpdated;
     private int mustChainDays;
-    private static final long DAYMILLIS = 1000 * 60 * 60  * 24;
     private double minutesSpentToday;
+
+    private static final long DAYMILLIS = 1000 * 60 * 60  * 24;
+    private static final int HSV_TO_COLOR_HUE_INDEX = 0;
+    private static final int HSV_TO_COLOR_SATURATION_INDEX = 1;
+    private static final int HSV_TO_COLOR_VALUE_INDEX = 2;
+
+    private static final int COLOR_FLOAT_TO_INT_FACTOR = 255;
+
 
 
     public int getMustChainDays() {
@@ -49,9 +57,10 @@ public class Chain {
 
 
     /*
-        when useer adds a task to current chain we calculate all stats
+        when user adds a task to current chain we calculate all stats
          */
     //TODO  add user stats i bar.
+    //TODO create percentage until chain reverted to 0, for displaying colors correctly.
     public void doTask(int minutes, User user){
         if(isChained()) {
             Time t = new Time();
@@ -152,6 +161,35 @@ public class Chain {
            return true;
         else
            return false;
+    }
+
+    //returns the progress untill the chains times out and resets to 0 chain-combo
+    private int getPercentageTimeout(){
+        Time t = new Time();
+        t.setToNow();
+
+
+        int percentage = (int) ((t.toMillis(false) - lastUpdated.toMillis(false)) / mustChainDays ) * 100;
+
+        if(percentage > 100)
+            return 100;
+        return percentage;
+    }
+
+    //for setting background-color of widgets or listitems depending on how far the chain is from timing out.
+    //gets a color from green to red depending on the state of the chain.
+    public int getDisplayColor(){
+        float hue = (float)Math.floor((100 - getPercentageTimeout()) * 120 / 100);
+
+        return HSVToColor(hue, 70, 90);
+    }
+
+    public static int HSVToColor(final float pHue, final float pSaturation, final float pValue) {
+        float[] HSV_TO_COLOR = new float[3];
+        HSV_TO_COLOR[HSV_TO_COLOR_HUE_INDEX] = pHue;
+        HSV_TO_COLOR[HSV_TO_COLOR_SATURATION_INDEX] = pSaturation;
+        HSV_TO_COLOR[HSV_TO_COLOR_VALUE_INDEX] = pValue;
+        return Color.HSVToColor(HSV_TO_COLOR);
     }
 
 
