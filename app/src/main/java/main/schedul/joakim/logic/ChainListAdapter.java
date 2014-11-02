@@ -35,8 +35,6 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         this.user = user;
     }
 
-    //TODO make chains get created with correct color depending on how long it's been since they were used/updated/chained
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

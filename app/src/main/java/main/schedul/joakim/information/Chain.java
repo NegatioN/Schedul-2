@@ -164,13 +164,13 @@ public class Chain {
     }
 
     //returns the progress untill the chains times out and resets to 0 chain-combo
+    //0% for newly updated, 100% for "done"
     private int getPercentageTimeout(){
         Time t = new Time();
         t.setToNow();
 
-
-        int percentage = (int) ((t.toMillis(false) - lastUpdated.toMillis(false)) / mustChainDays ) * 100;
-
+        int percentage = (int) ((t.toMillis(false) - lastUpdated.toMillis(false)) / (mustChainDays * DAYMILLIS)) * 100;
+        Log.d("Chain Percentage", "Percentage: " + percentage);
         if(percentage > 100)
             return 100;
         return percentage;
@@ -184,7 +184,8 @@ public class Chain {
         return HSVToColor(hue, 70, 90);
     }
 
-    public static int HSVToColor(final float pHue, final float pSaturation, final float pValue) {
+    //method for easy input of hue, saturation and value
+    private  static int HSVToColor(final float pHue, final float pSaturation, final float pValue) {
         float[] HSV_TO_COLOR = new float[3];
         HSV_TO_COLOR[HSV_TO_COLOR_HUE_INDEX] = pHue;
         HSV_TO_COLOR[HSV_TO_COLOR_SATURATION_INDEX] = pSaturation;
