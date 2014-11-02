@@ -17,6 +17,13 @@ public class TimeAchievement extends Achievement {
         this.minutesTotalGoal = minutesTotalGoal;
     }
 
+    public boolean achievedTime(User user){
+        if(minutesTotalGoal != 0)
+            return reachedTotalTime(user);
+        else
+            return reachedChainTime(user);
+    }
+
     private boolean reachedChainTime(User user){
         List<Chain> chains = user.getUserChains();
 
