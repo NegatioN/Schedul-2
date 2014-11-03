@@ -16,6 +16,7 @@ public class User {
         userChains = new ArrayList<Chain>();
         this.name = name;
         lvl = new Level();
+        userAchievements = new ArrayList<Achievement>();
 
         defineAchievements(userAchievements);
 

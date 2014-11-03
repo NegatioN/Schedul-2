@@ -11,6 +11,11 @@
     <style name="nameText">
         <item name="android:textSize">20sp</item>
     </style>
+    <style name="rowLayout">
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">0dp</item>
+    </style>
 
 
 </resources>
