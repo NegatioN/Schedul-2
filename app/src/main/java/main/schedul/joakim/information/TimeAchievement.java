@@ -11,7 +11,7 @@ public class TimeAchievement extends Achievement {
 
 
     //set one of the time-variables to 0, so we determine what type of achievement it is.
-    public TimeAchievement(String name, long minutesChainGoal, long minutesTotalGoal){
+    public TimeAchievement(String name, long minutesTotalGoal,long minutesChainGoal){
         super(name);
         this.minutesChainGoal = minutesChainGoal;
         this.minutesTotalGoal = minutesTotalGoal;

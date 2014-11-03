@@ -8,12 +8,12 @@ import java.util.List;
  */
 public class ExperienceAchievement extends Achievement {
 
-    private long experienceGoal, chainExperienceGoal;
+    private long totalExperienceGoal, chainExperienceGoal;
 
     //set total-experience goal or chainexperience goal depending on what type it should be
-    public ExperienceAchievement(String name, long experienceGoal, long chainExperienceGoal){
+    public ExperienceAchievement(String name, long totalExperienceGoal, long chainExperienceGoal){
         super(name);
-        this.experienceGoal = experienceGoal;
+        this.totalExperienceGoal = totalExperienceGoal;
         this.chainExperienceGoal = chainExperienceGoal;
 
     }
@@ -29,7 +29,7 @@ public class ExperienceAchievement extends Achievement {
 
     //has all the chains combined reached the experience goal the achievement requires?
     private boolean reachedTotalExperience(User user){
-        return user.getTotalExperience() > experienceGoal;
+        return user.getTotalExperience() > totalExperienceGoal;
     }
 
     //has a chain reached the chainexperience-goal of this achievement? ex: "User has gotten 1000 xp in Exercise"

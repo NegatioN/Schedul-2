@@ -10,7 +10,7 @@ import android.media.Image;
 //TODO define a premade list in onCreate somewhere where achievements are spawned.
 //TODO make "badge-page" ala fitocracy for achievements with icons
     //TODO popup on add time-dialog finished with list of badges achieved
-public class Achievement {
+public abstract class Achievement {
 
     private boolean achieved;
     private String name;
@@ -29,4 +29,5 @@ public class Achievement {
     public void setAchieved(boolean achieved) {
         this.achieved = achieved;
     }
+
 }
