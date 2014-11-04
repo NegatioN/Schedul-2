@@ -7,18 +7,26 @@ import android.media.Image;
  * A class used to define a single achievement, and the conditions a user needs to meet.
  */
 
-//TODO define a premade list in onCreate somewhere where achievements are spawned.
-//TODO make "badge-page" ala fitocracy for achievements with icons
+    //TODO make "badge-page" ala fitocracy for achievements with icons
     //TODO popup on add time-dialog finished with list of badges achieved
 public abstract class Achievement {
 
     private boolean achieved;
     private String name;
     private Image badgeIcon;
+    private int id;
+
 
     public Achievement(String name){
         this.name = name;
         achieved = false;
+    }
+
+    //database-constructor
+    public Achievement(String name, boolean isAcheved, int id){
+        this.name = name;
+        setAchieved(isAcheved);
+        this.id = id;
     }
 
     //if not achieved: calculate if achievedNow() on xp-add.
@@ -30,4 +38,13 @@ public abstract class Achievement {
         this.achieved = achieved;
     }
 
+    public abstract int getGoalNumber();
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

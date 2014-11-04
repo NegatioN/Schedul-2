@@ -15,7 +15,10 @@ public class Chain {
     private String name, description;
     private long totalMins;
     private Experience xp;
-    private int priority, chainid;
+    private int priority;
+
+
+    private int chainid;
 
 
     private int currentChain;
@@ -163,6 +166,9 @@ public class Chain {
 
     public Time getLastUpdated() {
         return lastUpdated;
+    }
+    public int getChainid() {
+        return chainid;
     }
 
     public String getTotalHours(){

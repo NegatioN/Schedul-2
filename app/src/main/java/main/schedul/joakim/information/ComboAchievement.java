@@ -13,8 +13,19 @@ public class ComboAchievement extends Achievement{
         this.comboGoal = comboGoal;
     }
 
+    //database-constructor
+    public ComboAchievement(int id, String name, int comboGoal, boolean achieved){
+        super(name, achieved,id);
+        this.comboGoal = comboGoal;
+    }
+
     public void calculateAchieved(int combo){
         setAchieved(combo >= comboGoal);
+    }
+
+    @Override
+    public int getGoalNumber() {
+        return comboGoal;
     }
 
 }
