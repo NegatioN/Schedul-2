@@ -15,6 +15,7 @@ import main.schedul.joakim.information.Achievement;
 import main.schedul.joakim.information.Chain;
 import main.schedul.joakim.information.ComboAchievement;
 import main.schedul.joakim.information.ExperienceAchievement;
+import main.schedul.joakim.information.Level;
 import main.schedul.joakim.information.TimeAchievement;
 import main.schedul.joakim.information.User;
 
@@ -111,6 +112,61 @@ public class UserDBHelper extends SQLiteOpenHelper {
         addChainList(getLastInsertedUserId() ,user.getUserChains());
     }
 
+    //get a list of all users (for selecting user-profile etc)
+    public List<User> getUsers(){
+        List<User> users = new ArrayList<User>();
+        String query = "SELECT * FROM " + TABLE_USERS;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                int userid = cursor.getInt(0);
+                String name = cursor.getString(1);
+                int levelxp = cursor.getInt(2);
+                int lvl = cursor.getInt(3);
+                Level level = new Level(levelxp, lvl);
+
+                users.add(new User(userid,name,level));
+            }while(cursor.moveToNext());
+        }
+        return users;
+    }
+
+    //gets us a complete useable user-object with chains and achievements
+    public User getEntireUser(int userId){
+        User user = getBaseUser(userId);
+        user.setUserAchievements(getAchievements(userId));
+        user.setUserChains(getChains(userId));
+
+        return user;
+    }
+
+    public User getBaseUser(int userid){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_USERID, KEY_USERNAME, KEY_LEVELXP, KEY_LEVEL}, KEY_USERID + "=?",
+                new String[]{String.valueOf(userid)}, null, null, null, null);
+        if(cursor != null){
+            String name = cursor.getString(1);
+            int levelxp = cursor.getInt(2);
+            int lvl = cursor.getInt(3);
+            Level level = new Level(levelxp, lvl);
+
+            return new User(userid,name,level);
+        }
+
+        db.close();
+        return null;
+    }
+
+    public void deleteUser(User user){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(TABLE_USERS, KEY_USERID + " =?", new String[]{String.valueOf(user.getId())});
+        db.close();
+    }
+
 
 
     //METHODS FOR INTEREACTING WITH CHAIN-DATABASE
@@ -163,7 +219,14 @@ public class UserDBHelper extends SQLiteOpenHelper {
     public int updateChain(Chain chain){
         SQLiteDatabase db = getWritableDatabase();
 
-        return db.update(TABLE_CHAINS, createChainValues(chain), KEY_CHAINID + "=?", new String[]{String.valueOf(chain.getChainid())});
+        return db.update(TABLE_CHAINS, createChainValues(chain), KEY_CHAINID + "=?", new String[]{String.valueOf(chain.getId())});
+    }
+
+    public void deleteChain(Chain chain){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(TABLE_CHAINS, KEY_CHAINID + " =?", new String[]{String.valueOf(chain.getId())});
+        db.close();
     }
 
     //help method for creating chain content values.
@@ -182,17 +245,22 @@ public class UserDBHelper extends SQLiteOpenHelper {
 
     //METHODS TO INTERACT WITH ACHIEVEMENT-DB
 
-    public void addAchievement(Achievement achievement){
+    public void addAchievement(int userId, Achievement achievement){
         SQLiteDatabase db = getWritableDatabase();
 
-        db.insert(TABLE_ACHIEVEMENTS, null, createAchievementValues(achievement));
+        db.insert(TABLE_ACHIEVEMENTS, null, createAchievementValues(userId, achievement));
         db.close();
 
     }
 
-    public int updateAchievement(Achievement achievement){
+    public void addAchievementList(int userId, List<Achievement> achievements){
+        for(Achievement achievement : achievements)
+            addAchievement(userId, achievement);
+    }
+
+    public int updateAchievement(int userId, Achievement achievement){
         SQLiteDatabase db = getWritableDatabase();
-        return db.update(TABLE_ACHIEVEMENTS, createAchievementValues(achievement), KEY_ACH_ID + "=?", new String[]{String.valueOf(achievement.getId())});
+        return db.update(TABLE_ACHIEVEMENTS, createAchievementValues(userId, achievement), KEY_ACH_ID + "=?", new String[]{String.valueOf(achievement.getId())});
     }
 
     //returns all achievements for a given user
@@ -231,10 +299,19 @@ public class UserDBHelper extends SQLiteOpenHelper {
     }
 
 
+    public void deleteAchievement(Achievement achievement){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(TABLE_ACHIEVEMENTS, KEY_ACH_ID + " =?", new String[]{String.valueOf(achievement.getId())});
+        db.close();
+    }
+
+
     //helper method for creating content-values for the achievement
-    private ContentValues createAchievementValues(Achievement achievement){
+    private ContentValues createAchievementValues(int userId, Achievement achievement){
 
         ContentValues values = new ContentValues();
+        values.put(KEY_USERID, userId);
         values.put(KEY_ACH_ACHIEVED, achievement.isAchieved()?1:0); //use 1 or 0 as boolean values
         values.put(KEY_ACH_GOAL, achievement.getGoalNumber());
         values.put(KEY_ACH_NAME, achievement.getName());
@@ -281,7 +358,8 @@ public class UserDBHelper extends SQLiteOpenHelper {
     }
 
     //Helper method for getting the last user inserted into db.
-    private int getLastInsertedUserId(){
+    //or for setting the correct userId in a newly created object.
+    public int getLastInsertedUserId(){
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_USERID},null, null, null, null, null);
 

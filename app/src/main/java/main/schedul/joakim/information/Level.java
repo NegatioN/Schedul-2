@@ -18,6 +18,11 @@ public class Level {
         this.levelXp = 0;
 
     }
+    //database-constructor
+    public Level(int levelXp, int level){
+        this.level = level;
+        this.levelXp = levelXp;
+    }
 
 
     public void passInExperience(int experience){

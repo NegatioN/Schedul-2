@@ -167,7 +167,7 @@ public class Chain {
     public Time getLastUpdated() {
         return lastUpdated;
     }
-    public int getChainid() {
+    public int getId() {
         return chainid;
     }
 

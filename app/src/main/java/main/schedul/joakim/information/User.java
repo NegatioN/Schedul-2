@@ -12,6 +12,8 @@ public class User {
     private Level lvl;
     private List<Chain> userChains;
     private List<Achievement> userAchievements;
+
+
     private int userId;
 
     //default constructor
@@ -25,13 +27,29 @@ public class User {
 
     }
 
-    //constructor for objects from database
+    //constructor for complete user-object from database
     public User(int userid, String name, Level level, List<Chain> chains, List<Achievement> achievements){
         this.userId = userid;
         this.name = name;
         this.lvl = level;
         userChains = chains;
         userAchievements = achievements;
+    }
+
+    public void setUserChains(List<Chain> userChains) {
+        this.userChains = userChains;
+    }
+
+    public void setUserAchievements(List<Achievement> userAchievements) {
+        this.userAchievements = userAchievements;
+    }
+
+    //constructor for display-object from db
+    public User(int userid, String name, Level level){
+        this.userId = userid;
+        this.name = name;
+        this.lvl = level;
+
     }
 
     //gets all user chains and computes total of each
@@ -95,5 +113,8 @@ public class User {
 
     public List<Chain> getUserChains() {
         return userChains;
+    }
+    public int getId() {
+        return userId;
     }
 }
