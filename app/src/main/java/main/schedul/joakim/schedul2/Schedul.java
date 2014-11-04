@@ -1,14 +1,18 @@
 package main.schedul.joakim.schedul2;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import main.schedul.joakim.Databases.DBHelper;
 import main.schedul.joakim.information.Chain;
 import main.schedul.joakim.information.User;
 import main.schedul.joakim.logic.ChainListAdapter;
@@ -18,11 +22,11 @@ public class Schedul extends FragmentActivity {
 
     private ArrayList<Chain> chains;
     public static User CURRENTUSER;
+    private DBHelper db = new DBHelper(this);
 
 
     //TODO add user-stats and name in actionbar, or find a solution for placement
     //TODO add save variables for screen tilt alertdialog.
-    //TODO create database for chains and users
     //TODO Create your user on first start. If user in db, only create in settings if(want)
 
     @Override
@@ -30,10 +34,18 @@ public class Schedul extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedul);
 
+        if(db.getUsers().isEmpty())
+            showUserCreateFragment();
+        else
+            CURRENTUSER = db.getEntireUser(db.getLastInsertedUserId());
+
+
+        //TODO add chains from user
+        //TODO add achievements from user
+        //TODO create chains on user from activity
+
         chains = new ArrayList<Chain>();
 
-
-        CURRENTUSER = new User("Joakim Rishaug");
         testData(chains, CURRENTUSER);
 
         ListView lvChains = (ListView) findViewById(R.id.lvChains);
@@ -70,6 +82,35 @@ public class Schedul extends FragmentActivity {
         Chain testchain = new Chain("Fotball", 2, "Masse bull", 1);
         chains.add(testchain);
         testchain.addChainToUser(user);
+    }
+
+
+    private void showUserCreateFragment(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Ingen brukere finnes");
+        alert.setMessage("Hva heter du?");
+
+// Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String value = input.getText().toString();
+                CURRENTUSER = new User(value);
+                db.addUser(CURRENTUSER);
+            }
+        });
+
+        alert.setNegativeButton("Avslutt", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+                finish();
+            }
+        });
+
+        alert.show();
     }
 
 }

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.format.Time;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,8 +22,10 @@ import main.schedul.joakim.information.User;
 
 /**
  * Created by NegatioN on 03.11.2014.
+ * A class containing the definition of our entire database
+ * The three tables are for Users, Chains and Achievements
  */
-public class UserDBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
     private static final String NAME = "SchedulDB";
     private final static String TABLE_USERS = "Users";
     private final static String TABLE_CHAINS = "Chains";
@@ -45,7 +48,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
     private final static String DATEFORMAT = "yyyy-MM-dd-HH-mm-ss";
 
 
-    public UserDBHelper(Context context) {
+    public DBHelper(Context context) {
         super(context, NAME, null, DB_VERSION);
     }
 
@@ -61,7 +64,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(createTable);
 
         createTable = "CREATE TABLE " + TABLE_CHAINS + "(" +
-                KEY_USERID + " INTEGER FOREIGN KEY, " +
+                KEY_USERID + " INTEGER, " +
                 KEY_CHAINID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 KEY_CHAINNAME + " TEXT, " +
                 KEY_CHAINDESC + " TEXT, " +
@@ -75,7 +78,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(createTable);
 
         createTable = "CREATE TABLE " + TABLE_ACHIEVEMENTS + "(" +
-                KEY_USERID + " INTEGER FOREIGN KEY, " +
+                KEY_USERID + " INTEGER, " +
                 KEY_ACH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 KEY_ACH_TYPE + " INTEGER NOT NULL, " +
                 KEY_ACH_NAME + " TEXT, " +
@@ -148,6 +151,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_USERID, KEY_USERNAME, KEY_LEVELXP, KEY_LEVEL}, KEY_USERID + "=?",
                 new String[]{String.valueOf(userid)}, null, null, null, null);
         if(cursor != null){
+            cursor.moveToFirst();
             String name = cursor.getString(1);
             int levelxp = cursor.getInt(2);
             int lvl = cursor.getInt(3);
@@ -194,7 +198,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
 
         List<Chain> chains = new ArrayList<Chain>();
 
-        if(cursor != null) {
+        if(cursor.getCount() != 0) {
             cursor.moveToFirst();
             do {
                 //get all parameters from cursor
@@ -270,7 +274,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(userId)}, null, null, null, null);
 
         List<Achievement> achievements = new ArrayList<Achievement>();
-        if(cursor != null){
+        if(cursor.getCount() != 0){
             cursor.moveToFirst();
             do{
                 int id = cursor.getInt(0);
@@ -365,7 +369,9 @@ public class UserDBHelper extends SQLiteOpenHelper {
 
         if(cursor != null) {
             cursor.moveToLast();
-            return cursor.getInt(0);
+            int userid = cursor.getInt(0);
+            Log.d("db.lastUser", "Last user added: " + userid);
+            return userid;
         }
 
         return -1;
