@@ -1,6 +1,7 @@
 package main.schedul.joakim.information;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by NegatioN on 22.09.2014.
@@ -9,9 +10,11 @@ public class User {
 
     private String name;
     private Level lvl;
-    private ArrayList<Chain> userChains;
-    private ArrayList<Achievement> userAchievements;
+    private List<Chain> userChains;
+    private List<Achievement> userAchievements;
+    private int userId;
 
+    //default constructor
     public User(String name){
         userChains = new ArrayList<Chain>();
         this.name = name;
@@ -20,6 +23,15 @@ public class User {
 
         defineAchievements(userAchievements);
 
+    }
+
+    //constructor for objects from database
+    public User(int userid, String name, Level level, List<Chain> chains, List<Achievement> achievements){
+        this.userId = userid;
+        this.name = name;
+        this.lvl = level;
+        userChains = chains;
+        userAchievements = achievements;
     }
 
     //gets all user chains and computes total of each
@@ -44,7 +56,7 @@ public class User {
 
     //TODO create encouragement-message that does "math.random()" in addition to the title-message that's standard?
     //define all the achievements for a user on creation.
-    private void defineAchievements(ArrayList<Achievement> achievements){
+    private void defineAchievements(List<Achievement> achievements){
         //Experience Achievements
         achievements.add(new ExperienceAchievement("OVER NINE THOUSAND!!!", 9000, 0));
         achievements.add(new ExperienceAchievement("Leet", 1337, 0));
@@ -73,15 +85,15 @@ public class User {
         this.name = name;
     }
 
-    public int getLvl() {
-        return lvl.getLevel();
+    public Level getLevel() {
+        return lvl;
     }
 
     public void updateLevel(int experience){
         lvl.passInExperience(experience);
     }
 
-    public ArrayList<Chain> getUserChains() {
+    public List<Chain> getUserChains() {
         return userChains;
     }
 }

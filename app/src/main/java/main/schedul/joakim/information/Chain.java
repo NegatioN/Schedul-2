@@ -15,7 +15,10 @@ public class Chain {
     private String name, description;
     private long totalMins;
     private Experience xp;
-    private int priority, currentChain;
+    private int priority, chainid;
+
+
+    private int currentChain;
     private Time lastUpdated;
     private int mustChainDays;
     private double minutesSpentToday;
@@ -40,6 +43,7 @@ public class Chain {
      * @param mustChainDays     What the number of days we can "chain" this task within. ex. input 1 for every day. or 2 for every other day
      */
 
+    //default constructor
     public Chain(String name, int priority, String description, int mustChainDays){
         this.name = name;
         this.priority = priority;
@@ -53,6 +57,19 @@ public class Chain {
         Time fillerTime = new Time();
         fillerTime.set(0);
         lastUpdated = fillerTime;
+    }
+
+    //database constructor
+    public Chain(int chainid, String name,  String description, int priority, int mustChainDays, int chainminutes, int chaincombo, int minstoday, Time lastUpdated){
+        this.chainid = chainid;
+        this.name = name;
+        this.description = description;
+        this.priority = priority;
+        this.mustChainDays = mustChainDays;
+        this.minutesSpentToday =  minstoday;
+        this.currentChain = chaincombo;
+        this.totalMins = chainminutes;
+        this.lastUpdated = lastUpdated;
     }
 
 
@@ -139,6 +156,13 @@ public class Chain {
 
     public double getMinutesSpentToday() {
         return minutesSpentToday;
+    }
+    public int getCurrentChain() {
+        return currentChain;
+    }
+
+    public Time getLastUpdated() {
+        return lastUpdated;
     }
 
     public String getTotalHours(){
