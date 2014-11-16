@@ -63,7 +63,7 @@ public class Chain {
     }
 
     //database constructor
-    public Chain(int chainid, String name,  String description, int priority, int mustChainDays, int chainminutes, int chaincombo, int minstoday, Time lastUpdated){
+    public Chain(int chainid, String name,  String description, int priority, int mustChainDays, int chainminutes, int chaincombo, int minstoday, Time lastUpdated, int experience){
         this.chainid = chainid;
         this.name = name;
         this.description = description;
@@ -73,6 +73,7 @@ public class Chain {
         this.currentChain = chaincombo;
         this.totalMins = chainminutes;
         this.lastUpdated = lastUpdated;
+        this.xp = new Experience(experience);
     }
 
 

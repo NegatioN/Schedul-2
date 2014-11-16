@@ -13,6 +13,11 @@ public class Experience {
         totalXp = 0;
     }
 
+    //database constructor
+    public Experience(int experience){
+        totalXp = experience;
+    }
+
 
     //TODO make it impossible to add more than 24hours of tasks in a single day. Method added, just needs to be used.
     //takes in the user-defined minutes that the current task lasted.

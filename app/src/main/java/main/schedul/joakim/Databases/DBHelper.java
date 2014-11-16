@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.format.Time;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private final static String KEY_USERID = "_USERID", KEY_USERNAME = "_NAME", KEY_LEVEL = "_LEVEL", KEY_LEVELXP = "_LEVELXP";
     //Keys for Chain-table
     private final static String KEY_CHAINID = "_ID", KEY_CHAINNAME = "_CHAIN", KEY_CHAINDESC = "_DESCRIPTION", KEY_CHAINMINUTES = "_MINUTES",
-            KEY_CHAINCOMBO = "_COMBO", KEY_MUSTCHAINSETTING = "_MUSTCHAIN", KEY_LASTUPDATE = "_LASTUPDATE", KEY_MINUTESTODAY = "_MINSTODAY", KEY_CHAINPRIORITY = "_PRIORITY";
+            KEY_CHAINCOMBO = "_COMBO", KEY_MUSTCHAINSETTING = "_MUSTCHAIN", KEY_LASTUPDATE = "_LASTUPDATE", KEY_MINUTESTODAY = "_MINSTODAY", KEY_CHAINPRIORITY = "_PRIORITY", KEY_CHAINXP = "_XP";
     //Keys for achievement-table
     private final static String KEY_ACH_ID = "_ID", KEY_ACH_TYPE = "_TYPE", KEY_ACH_NAME = "_NAME", KEY_ACH_ACHIEVED = "_ACHIEVED", KEY_ACH_SIMPLE_OR_TOTAL = "_SIMPLEORTOTAL",
     KEY_ACH_GOAL = "_GOAL";
@@ -45,7 +44,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final int TYPE_SIMPLE = 4, TYPE_TOTAL = 5;
 
 
-    private final static String DATEFORMAT = "yyyy-MM-dd-HH-mm-ss";
+   // private final static String DATEFORMAT = "yyyy-MM-dd-HH-mm-ss";
+    private final static String DATEFORMAT = "%Y.%m.%d.%H.%M.%S";
 
 
     public DBHelper(Context context) {
@@ -73,6 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 KEY_MUSTCHAINSETTING + " INTEGER, " +
                 KEY_MINUTESTODAY + " INTEGER, " +
                 KEY_CHAINPRIORITY + " INTEGER, " +
+                KEY_CHAINXP + " INTEGER, " +
                 KEY_LASTUPDATE + " TEXT)";
 
         sqLiteDatabase.execSQL(createTable);
@@ -92,6 +93,8 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CHAINS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ACHIEVEMENTS);
         onCreate(sqLiteDatabase);
     }
 
@@ -184,7 +187,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public void addChain(int userId, Chain chain){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.insert(TABLE_CHAINS, null, createChainValues(chain));
+        Log.d("addChain", "AddChain called");
+        long position = db.insert(TABLE_CHAINS, null, createChainValues(chain, userId));
+        Log.d("addChain", "Position?: " + position);
         db.close();
 
     }
@@ -193,13 +198,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<Chain> getChains(int userId){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_CHAINS, new String[]{KEY_CHAINID, KEY_CHAINNAME, KEY_CHAINDESC, KEY_CHAINMINUTES, KEY_CHAINCOMBO, KEY_MUSTCHAINSETTING,
-                        KEY_MINUTESTODAY, KEY_CHAINPRIORITY, KEY_LASTUPDATE}, KEY_USERID + "=?",
+                        KEY_MINUTESTODAY, KEY_CHAINPRIORITY, KEY_CHAINXP, KEY_LASTUPDATE}, KEY_USERID + "=?",
                 new String[]{String.valueOf(userId)}, null, null, null, null);
 
         List<Chain> chains = new ArrayList<Chain>();
+        Log.d("getChains.Start", "Chain-getting started");
 
-        if(cursor.getCount() != 0) {
-            cursor.moveToFirst();
+        if(cursor.moveToFirst()) {
             do {
                 //get all parameters from cursor
                 int chainId = cursor.getInt(0);
@@ -210,11 +215,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 int mustchaindays = cursor.getInt(5);
                 int minstoday = cursor.getInt(6);
                 int priority = cursor.getInt(7);
-                Time time = makeStringToTime(cursor.getString(8));
+                int experience = cursor.getInt(8);
+                Time time = makeStringToTime(cursor.getString(9));
 
                 //add to chains
-                chains.add(new Chain(chainId,name, desc, priority, mustchaindays, chainmins, combo, minstoday, time));
+                chains.add(new Chain(chainId,name, desc, priority, mustchaindays, chainmins, combo, minstoday, time, experience));
+                Log.d("getChains.Id", "ChainId: " + chainId);
             } while (cursor.moveToNext());
+        }else{
+            Log.d("getChains.Error", "Chain length == 0?");
         }
         return chains;
     }
@@ -233,6 +242,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    //overload for linking a chain with user on create
+    private ContentValues createChainValues(Chain chain, int userId){
+        ContentValues values = createChainValues(chain);
+        values.put(KEY_USERID, userId);
+        return values;
+    }
     //help method for creating chain content values.
     private ContentValues createChainValues(Chain chain){
         ContentValues values = new ContentValues();
@@ -244,6 +259,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(KEY_LASTUPDATE, makeTimeToString(chain.getLastUpdated()));
         values.put(KEY_CHAINPRIORITY, chain.getPriority());
         values.put(KEY_MUSTCHAINSETTING, chain.getMustChainDays());
+        values.put(KEY_CHAINXP, chain.getCurrentExperience());
         return values;
     }
 
@@ -342,8 +358,11 @@ public class DBHelper extends SQLiteOpenHelper {
     //DATE HELPER METHODS
 
     private String makeTimeToString(Time time){
-        SimpleDateFormat df = new SimpleDateFormat(DATEFORMAT);
-        return df.format(time);
+       // SimpleDateFormat df = new SimpleDateFormat(DATEFORMAT);
+        Log.d("TimeBefore", time.toString());
+        Log.d("makeTimeToString", time.format(DATEFORMAT));
+        return time.format(DATEFORMAT);
+        //return df.format(time);
     }
 
     private Time makeStringToTime(String dateFromDB){

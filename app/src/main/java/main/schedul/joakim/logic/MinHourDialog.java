@@ -9,6 +9,7 @@ import android.widget.NumberPicker;
 import eu.inmite.android.lib.dialogs.BaseDialogFragment;
 import eu.inmite.android.lib.dialogs.ISimpleDialogListener;
 import eu.inmite.android.lib.dialogs.SimpleDialogFragment;
+import main.schedul.joakim.Databases.DBHelper;
 import main.schedul.joakim.information.Chain;
 import main.schedul.joakim.information.User;
 import main.schedul.joakim.schedul2.R;
@@ -67,7 +68,8 @@ public class MinHourDialog extends SimpleDialogFragment{
                 Log.d("chain.onclick", chain.getCurrentExperience()+"");
 
                 Log.d("user.chain.onclick", staticuser.getUserChains().get(0).getCurrentExperience()+"");
-
+                DBHelper db = new DBHelper(getActivity().getApplicationContext());
+                db.updateChain(chain);
                 dismiss();
             }
         });

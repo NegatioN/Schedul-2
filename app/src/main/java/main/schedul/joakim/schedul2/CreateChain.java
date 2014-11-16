@@ -3,6 +3,7 @@ package main.schedul.joakim.schedul2;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import eu.inmite.android.lib.dialogs.SimpleDialogFragment;
+import main.schedul.joakim.Databases.DBHelper;
 import main.schedul.joakim.information.Chain;
 
 
@@ -51,6 +53,7 @@ public class CreateChain extends FragmentActivity {
                     //after creating chain, go back to main screen.
                     finish();
                 }else{
+                    //TODO port to normal Alertdialog
                     SimpleDialogFragment.createBuilder(context, getSupportFragmentManager()).setMessage(R.string.create_error_message).show();
                 }
             }
@@ -84,6 +87,11 @@ public class CreateChain extends FragmentActivity {
     private void createChain(String name, String description, int priority, int mustChainDays){
         Chain newChain = new Chain(name, priority, description, mustChainDays);
         Schedul.CURRENTUSER.getUserChains().add(newChain);
+
+        DBHelper db = new DBHelper(this.getApplicationContext());
+        Log.d("createChain", "db started. On user: " + Schedul.CURRENTUSER.getId() );
+        //add chain to db with user-id
+        db.addChain(Schedul.CURRENTUSER.getId(), newChain);
     }
 
     //checks if our edittext is empty

@@ -5,12 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import main.schedul.joakim.Databases.DBHelper;
 import main.schedul.joakim.information.Chain;
@@ -28,25 +30,35 @@ public class Schedul extends FragmentActivity {
     //TODO add user-stats and name in actionbar, or find a solution for placement
     //TODO add save variables for screen tilt alertdialog.
     //TODO Create your user on first start. If user in db, only create in settings if(want)
+    //TODO make settings
+    //TODO Create widgets for chains.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedul);
 
-        if(db.getUsers().isEmpty())
+        if(db.getUsers().isEmpty()) {
             showUserCreateFragment();
-        else
+            chains = new ArrayList<Chain>();
+        }
+        else {
             CURRENTUSER = db.getEntireUser(db.getLastInsertedUserId());
+            chains = new ArrayList<Chain>();
+
+            Log.d("Static user", "UserId: " + CURRENTUSER.getId());
+            List<Chain> testchain = db.getChains(CURRENTUSER.getId());
+            for(Chain chain : testchain){
+                chains.add(chain);
+                Log.d("chainLoop", "Chain added");
+            }
+        }
+
 
 
         //TODO add chains from user
         //TODO add achievements from user
         //TODO create chains on user from activity
-
-        chains = new ArrayList<Chain>();
-
-        testData(chains, CURRENTUSER);
 
         ListView lvChains = (ListView) findViewById(R.id.lvChains);
         lvChains.setAdapter(new ChainListAdapter(this,chains, CURRENTUSER));
