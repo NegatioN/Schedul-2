@@ -98,7 +98,6 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    //TODO create methods for CRUD user, chain, achievements
     //METODS FOR INTERACTING WITH USER-DATABASE
 
     public void addUser(User user){
@@ -206,21 +205,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()) {
             do {
-                //get all parameters from cursor
-                int chainId = cursor.getInt(0);
-                String name = cursor.getString(1);
-                String desc = cursor.getString(2);
-                int chainmins = cursor.getInt(3);
-                int combo = cursor.getInt(4);
-                int mustchaindays = cursor.getInt(5);
-                int minstoday = cursor.getInt(6);
-                int priority = cursor.getInt(7);
-                int experience = cursor.getInt(8);
-                Time time = makeStringToTime(cursor.getString(9));
-
                 //add to chains
-                chains.add(new Chain(chainId,name, desc, priority, mustchaindays, chainmins, combo, minstoday, time, experience));
-                Log.d("getChains.Id", "ChainId: " + chainId);
+                chains.add(createChainFromCursor(cursor));
             } while (cursor.moveToNext());
         }else{
             Log.d("getChains.Error", "Chain length == 0?");
@@ -240,6 +226,26 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.delete(TABLE_CHAINS, KEY_CHAINID + " =?", new String[]{String.valueOf(chain.getId())});
         db.close();
+    }
+
+    //takes in cursor and outputs a chain
+    private Chain createChainFromCursor(Cursor cursor){
+        //get all parameters from cursor
+        int chainId = cursor.getInt(0);
+        String name = cursor.getString(1);
+        String desc = cursor.getString(2);
+        int chainmins = cursor.getInt(3);
+        int combo = cursor.getInt(4);
+        int mustchaindays = cursor.getInt(5);
+        int minstoday = cursor.getInt(6);
+        int priority = cursor.getInt(7);
+        int experience = cursor.getInt(8);
+        Time time = makeStringToTime(cursor.getString(9));
+
+        Log.d("getChain.time", "Raw timeString: " + cursor.getString(9));
+        Log.d("getChain.Time", time.toString());
+        Log.d("getChains.Id", "ChainId: " + chainId);
+       return  new Chain(chainId,name, desc, priority, mustchaindays, chainmins, combo, minstoday, time, experience);
     }
 
     //overload for linking a chain with user on create

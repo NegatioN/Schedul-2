@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import main.schedul.joakim.information.Chain;
 import main.schedul.joakim.information.User;
@@ -29,10 +30,13 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
     private ArrayList<Chain> chains;
     private User user;
 
-    public ChainListAdapter(Context context, ArrayList<Chain> chains, User user) {
+    public ChainListAdapter(Context context, List<Chain> chains, User user) {
         super(context, R.layout.row_layout, chains);
         this.context = context;
-        this.chains = chains;
+
+        this.chains = new ArrayList<Chain>();
+        for(Chain chain : chains)
+            this.chains.add(chain);
         this.user = user;
     }
 

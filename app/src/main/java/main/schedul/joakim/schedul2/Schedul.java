@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import main.schedul.joakim.Databases.DBHelper;
 import main.schedul.joakim.information.Chain;
@@ -22,9 +21,10 @@ import main.schedul.joakim.logic.ChainListAdapter;
 
 public class Schedul extends FragmentActivity {
 
-    private ArrayList<Chain> chains;
     public static User CURRENTUSER;
     private DBHelper db = new DBHelper(this);
+    private boolean firstStart = true;
+    private static final String FIRST_START = "_START_KEY";
 
 
     //TODO add user-stats and name in actionbar, or find a solution for placement
@@ -38,34 +38,38 @@ public class Schedul extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedul);
 
-        if(db.getUsers().isEmpty()) {
-            showUserCreateFragment();
-            chains = new ArrayList<Chain>();
-        }
-        else {
-            CURRENTUSER = db.getEntireUser(db.getLastInsertedUserId());
-            chains = new ArrayList<Chain>();
 
-            Log.d("Static user", "UserId: " + CURRENTUSER.getId());
-            List<Chain> testchain = db.getChains(CURRENTUSER.getId());
-            for(Chain chain : testchain){
-                chains.add(chain);
-                Log.d("chainLoop", "Chain added");
+        if (savedInstanceState != null) {
+            Log.d("onCreate", "First Start: " + savedInstanceState.getBoolean(FIRST_START));
+        }else{
+
+
+            if (db.getUsers().isEmpty()) {
+                showUserCreateFragment();
+                firstStart = false;
+            } else {
+                //TODO make user selectable via settings
+                CURRENTUSER = db.getEntireUser(db.getLastInsertedUserId());
             }
+            firstStart = false;
         }
 
-
-
-        //TODO add chains from user
         //TODO add achievements from user
-        //TODO create chains on user from activity
 
         ListView lvChains = (ListView) findViewById(R.id.lvChains);
-        lvChains.setAdapter(new ChainListAdapter(this,chains, CURRENTUSER));
+        lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
 
 
     }
 
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(FIRST_START, firstStart);
+        Log.d("onSave", "screen saved");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

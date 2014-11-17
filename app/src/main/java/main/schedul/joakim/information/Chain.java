@@ -81,7 +81,6 @@ public class Chain {
         when user adds a task to current chain we calculate all stats
          */
     //TODO  add user stats i bar.
-    //TODO create percentage until chain reverted to 0, for displaying colors correctly.
     public void doTask(int minutes, User user){
         if(isChained()) {
             Time t = new Time();
