@@ -12,5 +12,7 @@
     <string name="create_chain_button">Create Chain</string>
     <string name="tv_days">Chain every: </string>
     <string name="create_error_message">Please enter a name for your chain.</string>
+    <string name="text_username_title">Username</string>
+
 
 </resources>

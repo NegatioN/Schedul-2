@@ -11,10 +11,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
 import main.schedul.joakim.Databases.DBHelper;
-import main.schedul.joakim.information.Chain;
 import main.schedul.joakim.information.User;
 import main.schedul.joakim.logic.ChainListAdapter;
 
@@ -50,6 +47,7 @@ public class Schedul extends FragmentActivity {
             } else {
                 //TODO make user selectable via settings
                 CURRENTUSER = db.getEntireUser(db.getLastInsertedUserId());
+                Log.d("Schedul.init", "Name: " + CURRENTUSER.getName());
             }
             firstStart = false;
         }
@@ -74,8 +72,15 @@ public class Schedul extends FragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.schedul, menu);
-        return true;
+        MenuItem item = (MenuItem) findViewById(R.id.text_username);
+ //       if(CURRENTUSER != null)
+   //         item.setTitle(CURRENTUSER.getName());
+     //   getMenuInflater().inflate(R.menu.schedul, menu);
+
+
+
+       // return true;
+        return false;
     }
 
     @Override
@@ -92,12 +97,6 @@ public class Schedul extends FragmentActivity {
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void testData(ArrayList<Chain> chains, User user) {
-        Chain testchain = new Chain("Fotball", 2, "Masse bull", 1);
-        chains.add(testchain);
-        testchain.addChainToUser(user);
     }
 
 
