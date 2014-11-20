@@ -100,6 +100,7 @@ public class Chain {
 
         Log.d("doTask", currentChain + " combo");
         int taskXp = xp.calculateExperience(minutes,currentChain);
+        Log.d("doTask.XP", "XP: " + taskXp);
         totalMins+=minutes;
         minutesSpentToday += minutes;
         user.updateLevel(taskXp);

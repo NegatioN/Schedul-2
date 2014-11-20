@@ -1,10 +1,13 @@
 package main.schedul.joakim.logic;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import eu.inmite.android.lib.dialogs.BaseDialogFragment;
 import eu.inmite.android.lib.dialogs.ISimpleDialogListener;
@@ -23,8 +26,10 @@ public class MinHourDialog extends SimpleDialogFragment{
     private static Chain chain;
     private static User staticuser;
     private static ChainListAdapter cListAdapter;
+    private static FragmentActivity fa;
 
     public static void show(FragmentActivity activity, Chain selectedChain, User user, ChainListAdapter cla){
+        fa = activity;
         staticuser = user;
         chain = selectedChain;
         new MinHourDialog().show(activity.getSupportFragmentManager(), TAG);
@@ -62,7 +67,9 @@ public class MinHourDialog extends SimpleDialogFragment{
                 if((hoursSelected + minutesSelected) > 0) {
                     chain.doTask((60 * hoursSelected + minutesSelected), staticuser);
                     cListAdapter.notifyDataSetChanged();
+                    updateUserText(staticuser, fa);
                 }
+
 
                 Log.d("chain.onclick", hoursSelected + " : " + minutesSelected);
                 Log.d("chain.onclick", chain.getCurrentExperience()+"");
@@ -102,5 +109,15 @@ public class MinHourDialog extends SimpleDialogFragment{
         hp.setFocusableInTouchMode(true);
         mp.setFocusable(true);
         mp.setFocusableInTouchMode(true);
+    }
+
+    private void updateUserText(User user, Context context){
+        TextView tvXp = (TextView) ((Activity)context).findViewById(R.id.tv_userXP);
+        TextView tvLvl = (TextView)((Activity)context). findViewById(R.id.tv_userLvl);
+
+        Log.d("ChainAdapter", "Username: " + user.getName());
+
+        tvXp.setText(user.getLevel().getLevelXp() + "");
+        tvLvl.setText(user.getLevel().getLevel() + "");
     }
 }

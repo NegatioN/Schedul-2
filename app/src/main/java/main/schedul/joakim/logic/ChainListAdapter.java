@@ -92,6 +92,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
     private void displayMinuteDialog(Chain selectedChain, User user){
         MinHourDialog.show((Schedul)context, selectedChain, user, this);
         this.notifyDataSetChanged();
+
     }
     //TODO implement onTouch /hold listener for reset of previously entered info today, or name-change.
     //displays a dialog that lets us edit our currently selected chain
@@ -99,6 +100,8 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
 
         this.notifyDataSetChanged();
     }
+
+
 
 
 }

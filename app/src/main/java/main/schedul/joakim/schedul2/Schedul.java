@@ -55,13 +55,7 @@ public class Schedul extends FragmentActivity {
 
         //TODO add achievements from user
 
-        TextView tvUsername = (TextView) findViewById(R.id.tv_username);
-        TextView tvXp = (TextView) findViewById(R.id.tv_userXP);
-        TextView tvLvl = (TextView) findViewById(R.id.tv_userLvl);
-
-        tvUsername.setText(CURRENTUSER.getName());
-        tvXp.setText(CURRENTUSER.getLevel().getLevelXp() + "");
-        tvLvl.setText(CURRENTUSER.getLevel().getLevel() + "");
+        updateUserText();
 
         ListView lvChains = (ListView) findViewById(R.id.lvChains);
         lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
@@ -134,6 +128,17 @@ public class Schedul extends FragmentActivity {
         });
 
         alert.show();
+    }
+
+    //updates the three textfields that relate to username, xp and level
+    private void updateUserText(){
+        TextView tvUsername = (TextView) findViewById(R.id.tv_username);
+        TextView tvXp = (TextView) findViewById(R.id.tv_userXP);
+        TextView tvLvl = (TextView) findViewById(R.id.tv_userLvl);
+
+        tvUsername.setText(CURRENTUSER.getName());
+        tvXp.setText(CURRENTUSER.getLevel().getLevelXp() + "");
+        tvLvl.setText(CURRENTUSER.getLevel().getLevel() + "");
     }
 
 }
