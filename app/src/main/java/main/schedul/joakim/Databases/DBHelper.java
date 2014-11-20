@@ -166,11 +166,28 @@ public class DBHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    //updates a user
+    public int updateUser(User user){
+        SQLiteDatabase db = getWritableDatabase();
+
+        return db.update(TABLE_USERS, createUserValues(user), KEY_USERID + "=?", new String[]{String.valueOf(user.getId())});
+    }
+
     public void deleteUser(User user){
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_USERS, KEY_USERID + " =?", new String[]{String.valueOf(user.getId())});
         db.close();
+    }
+
+    //returns the content values of a user
+    private ContentValues createUserValues(User user){
+        ContentValues values = new ContentValues();
+        values.put(KEY_USERID, user.getId());
+        values.put(KEY_USERNAME, user.getName());
+        values.put(KEY_LEVELXP, user.getLevel().getLevelXp());
+        values.put(KEY_LEVEL, user.getLevel().getLevel());
+        return values;
     }
 
 

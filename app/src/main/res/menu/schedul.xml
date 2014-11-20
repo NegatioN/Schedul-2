@@ -1,14 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Schedul"
-     >
-
-    <item
-        android:id="@+id/text_username"
-        android:title="@string/text_username_title"
-        android:orderInCategory="98"
-        android:showAsAction="always"
-        />
+ >
 
     <item
         android:id="@+id/action_newchain"

@@ -11,7 +11,21 @@
         android:id="@+id/menuContainer"
         android:layout_width="fill_parent"
         android:layout_height="30dp">
-
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="@dimen/menu_tv_width"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:id="@+id/tv_userXP"
+            android:layout_width="@dimen/menu_tv_width"
+            android:layout_height="fill_parent"
+            android:layout_toRightOf="@id/tv_username"/>
+        <TextView
+            android:id="@+id/tv_userLvl"
+            android:layout_width="@dimen/menu_tv_width"
+            android:layout_height="fill_parent"
+            android:layout_toRightOf="@id/tv_userXP"/>
 
     </RelativeLayout>
 

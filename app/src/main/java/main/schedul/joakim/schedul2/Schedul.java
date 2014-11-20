@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import main.schedul.joakim.Databases.DBHelper;
 import main.schedul.joakim.information.User;
@@ -54,13 +55,26 @@ public class Schedul extends FragmentActivity {
 
         //TODO add achievements from user
 
+        TextView tvUsername = (TextView) findViewById(R.id.tv_username);
+        TextView tvXp = (TextView) findViewById(R.id.tv_userXP);
+        TextView tvLvl = (TextView) findViewById(R.id.tv_userLvl);
+
+        tvUsername.setText(CURRENTUSER.getName());
+        tvXp.setText(CURRENTUSER.getLevel().getLevelXp() + "");
+        tvLvl.setText(CURRENTUSER.getLevel().getLevel() + "");
+
         ListView lvChains = (ListView) findViewById(R.id.lvChains);
         lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
 
 
     }
 
-
+    //saves our user-data every time the application gets interrupted.
+    @Override
+    protected void onPause() {
+        super.onPause();
+        db.updateUser(CURRENTUSER);
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -72,15 +86,9 @@ public class Schedul extends FragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        MenuItem item = (MenuItem) findViewById(R.id.text_username);
- //       if(CURRENTUSER != null)
-   //         item.setTitle(CURRENTUSER.getName());
-     //   getMenuInflater().inflate(R.menu.schedul, menu);
+          getMenuInflater().inflate(R.menu.schedul, menu);
 
-
-
-       // return true;
-        return false;
+          return true;
     }
 
     @Override
