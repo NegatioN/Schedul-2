@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,16 +51,30 @@ public class Schedul extends FragmentActivity {
                 //TODO make user selectable via settings
                 CURRENTUSER = db.getEntireUser(db.getLastInsertedUserId());
                 Log.d("Schedul.init", "Name: " + CURRENTUSER.getName());
+                updateUserText();
             }
             firstStart = false;
         }
 
         //TODO add achievements from user
 
-        updateUserText();
+
 
         ListView lvChains = (ListView) findViewById(R.id.lvChains);
-        lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
+        // needs to be here for the first user-creation. Otherwise we'll get an error
+        if(CURRENTUSER != null) {
+            lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
+        }
+
+        Button newChainButton = (Button) findViewById(R.id.b_newChain);
+        newChainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), CreateChain.class);
+                startActivity(i);
+            }
+        });
+
 
 
     }
@@ -117,6 +133,10 @@ public class Schedul extends FragmentActivity {
                 String value = input.getText().toString();
                 CURRENTUSER = new User(value);
                 db.addUser(CURRENTUSER);
+                updateUserText();
+                //creates the listview after user-creation
+                ListView lvChains = (ListView) findViewById(R.id.lvChains);
+                lvChains.setAdapter(new ChainListAdapter(getApplicationContext(), CURRENTUSER.getUserChains(), CURRENTUSER));
             }
         });
 

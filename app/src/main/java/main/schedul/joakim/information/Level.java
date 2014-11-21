@@ -41,12 +41,12 @@ public class Level {
 
     //has the user leveled up?
     private boolean isLevel(){
-        if(levelXp >= requiredXp()) {
+        boolean isLevel = false;
+        while(levelXp >= requiredXp()) {
             levelUp();
-            return true;
+            isLevel = true;
         }
-        else
-            return false;
+        return isLevel;
     }
 
     //levels up the users, and transfers remaining xp to the next level.

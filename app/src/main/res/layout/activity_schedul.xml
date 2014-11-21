@@ -26,6 +26,12 @@
             android:layout_width="@dimen/menu_tv_width"
             android:layout_height="fill_parent"
             android:layout_toRightOf="@id/tv_userXP"/>
+        <Button
+            android:id="@+id/b_newChain"
+            android:layout_width="@dimen/menu_tv_width"
+            android:layout_height="fill_parent"
+            android:layout_toRightOf="@id/tv_userLvl"
+            android:text="New Chain"/>
 
     </RelativeLayout>
 
