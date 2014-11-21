@@ -25,15 +25,13 @@ public class MinHourDialog extends SimpleDialogFragment{
     public static String TAG = "minHour";
     private static Chain chain;
     private static User staticuser;
-    private static ChainListAdapter cListAdapter;
     private static FragmentActivity fa;
 
-    public static void show(FragmentActivity activity, Chain selectedChain, User user, ChainListAdapter cla){
+    public static void show(FragmentActivity activity, Chain selectedChain, User user){
         fa = activity;
         staticuser = user;
         chain = selectedChain;
         new MinHourDialog().show(activity.getSupportFragmentManager(), TAG);
-        cListAdapter = cla;
 
     }
 
@@ -66,7 +64,6 @@ public class MinHourDialog extends SimpleDialogFragment{
                 //not both counters at zero
                 if((hoursSelected + minutesSelected) > 0) {
                     chain.doTask((60 * hoursSelected + minutesSelected), staticuser);
-                    cListAdapter.notifyDataSetChanged();
                     updateUserText(staticuser, fa);
                 }
 

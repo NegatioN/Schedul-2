@@ -1,6 +1,7 @@
 package main.schedul.joakim.logic;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
     public View getView(int position, View convertView, ViewGroup parent) {
 
         final Chain selectedChain = chains.get(position);
-
+        Log.d("Inflate.GetView", "Chainview at pos: " + position + "created");
 
         //get all views for the row in our list
         LayoutInflater inflater = (LayoutInflater) context
@@ -90,7 +91,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
 
     //displays our dialog with minute/hour input for the current chain
     private void displayMinuteDialog(Chain selectedChain, User user){
-        MinHourDialog.show((Schedul)context, selectedChain, user, this);
+        MinHourDialog.show((Schedul)context, selectedChain, user);
         this.notifyDataSetChanged();
 
     }
@@ -98,7 +99,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
     //displays a dialog that lets us edit our currently selected chain
     private void displayEditDialog(){
 
-        this.notifyDataSetChanged();
+        //this.notifyDataSetChanged();
     }
 
 

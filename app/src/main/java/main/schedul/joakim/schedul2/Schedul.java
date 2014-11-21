@@ -34,6 +34,15 @@ public class Schedul extends FragmentActivity {
     //TODO Create widgets for chains.
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(CURRENTUSER != null) {
+            ListView lvChains = (ListView) findViewById(R.id.lvChains);
+            lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedul);
@@ -92,6 +101,7 @@ public class Schedul extends FragmentActivity {
         outState.putBoolean(FIRST_START, firstStart);
         Log.d("onSave", "screen saved");
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
