@@ -9,7 +9,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="main.schedul.joakim.schedul2.Schedul"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,15 +20,19 @@
         <activity
             android:name="main.schedul.joakim.schedul2.CreateChain"
             android:label="@string/title_activity_create_chain"
-            android:parentActivityName="main.schedul.joakim.schedul2.Schedul" >
+            android:parentActivityName="main.schedul.joakim.schedul2.Schedul"
+            android:screenOrientation="portrait">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="main.schedul.joakim.schedul2.Schedul" />
         </activity>
         <activity
             android:name="main.schedul.joakim.schedul2.SettingsLoadActivity"
-            android:parentActivityName="main.schedul.joakim.schedul2.Schedul" >
-            android:label="@string/title_settings_fragment" >
+            android:parentActivityName="main.schedul.joakim.schedul2.Schedul"
+            android:screenOrientation="portrait"
+            android:label="@string/title_settings_fragment">
+
         </activity>
     </application>
 

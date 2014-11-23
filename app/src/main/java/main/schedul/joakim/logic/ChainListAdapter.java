@@ -1,6 +1,8 @@
 package main.schedul.joakim.logic;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,10 +41,14 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         for(Chain chain : chains)
             this.chains.add(chain);
         this.user = user;
+
+        Log.d("chainlist", "ChainListAdapter onCreate run");
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        Drawable drawable = context.getResources().getDrawable(R.drawable.row_drawable);
 
         final Chain selectedChain = chains.get(position);
         Log.d("Inflate.GetView", "Chainview at pos: " + position + "created");
@@ -62,7 +68,10 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         hours.setText(HOURS + selectedChain.getTotalHours());
 
         //sets the color of the view based on how far it is from expiring
-        rowView.setBackgroundColor(selectedChain.getDisplayColor());
+        //mutates the drawable so we can still share bitmap-resource, but color-states are not shared.
+        drawable.setColorFilter(selectedChain.getDisplayColor(), PorterDuff.Mode.MULTIPLY);
+        rowView.setBackground(drawable);
+     //   rowView.setBackgroundColor(selectedChain.getDisplayColor());
 
 
         rowView.setOnClickListener(new View.OnClickListener() {
@@ -91,8 +100,9 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
 
     //displays our dialog with minute/hour input for the current chain
     private void displayMinuteDialog(Chain selectedChain, User user){
-        MinHourDialog.show((Schedul)context, selectedChain, user);
-        this.notifyDataSetChanged();
+        MinHourDialog.show((Schedul)context, selectedChain, user, this);
+
+       // this.notifyDataSetChanged();
 
     }
     //TODO implement onTouch /hold listener for reset of previously entered info today, or name-change.

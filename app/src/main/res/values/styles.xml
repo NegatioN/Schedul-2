@@ -17,5 +17,9 @@
         <item name="android:dividerHeight">0dp</item>
     </style>
 
+    <style name="mainHeader">
+        <item name="android:background">@drawable/header_drawable</item>
+    </style>
+
 
 </resources>

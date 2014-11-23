@@ -25,10 +25,7 @@ public class SettingsActivity extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
             addPreferencesFromResource(R.layout.settings_layout);
-
     }
     //dynamically sets the list of users in the database to be selected by clicking the preference-list.
     @Override

@@ -26,13 +26,14 @@ public class MinHourDialog extends SimpleDialogFragment{
     private static Chain chain;
     private static User staticuser;
     private static FragmentActivity fa;
+    private static ChainListAdapter cla;
 
-    public static void show(FragmentActivity activity, Chain selectedChain, User user){
+    public static void show(FragmentActivity activity, Chain selectedChain, User user, ChainListAdapter adapter){
         fa = activity;
         staticuser = user;
         chain = selectedChain;
         new MinHourDialog().show(activity.getSupportFragmentManager(), TAG);
-
+        cla = adapter;
     }
 
     @Override
@@ -74,7 +75,11 @@ public class MinHourDialog extends SimpleDialogFragment{
                 Log.d("user.chain.onclick", staticuser.getUserChains().get(0).getCurrentExperience()+"");
                 DBHelper db = new DBHelper(getActivity().getApplicationContext());
                 db.updateChain(chain);
+
+                //must be called here to make views update correctly.
+                cla.notifyDataSetChanged();
                 dismiss();
+
             }
         });
 

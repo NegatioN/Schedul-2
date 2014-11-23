@@ -32,17 +32,15 @@ public class Schedul extends FragmentActivity {
 
     //TODO add user-stats and name in actionbar, or find a solution for placement
     //TODO add save variables for screen tilt alertdialog.
-    //TODO make settings
+    //TODO add additional settings?
     //TODO Create widgets for chains.
+    //TODO make colors persist on get from db chain
 
     //called on every screen-update
     @Override
     protected void onResume() {
         super.onResume();
-        if(CURRENTUSER != null) {
-            ListView lvChains = (ListView) findViewById(R.id.lvChains);
-            lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
-        }
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         int dbPrimaryKey = Integer.parseInt(preferences.getString(SettingsActivity.LIST_PREF_KEY, "-1"));
         if(CURRENTUSER.getId() != dbPrimaryKey){
@@ -50,12 +48,11 @@ public class Schedul extends FragmentActivity {
             Log.d("Schedul.init", "Name: " + CURRENTUSER.getName());
             updateUserText();
 
+        }
+        if(CURRENTUSER != null) {
             ListView lvChains = (ListView) findViewById(R.id.lvChains);
-            // needs to be here for the first user-creation. Otherwise we'll get an error
-            if(CURRENTUSER != null) {
-                lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
-            }
-
+            Log.d("Schdul.onResume", "Right before chainAdapter oncreate onpause");
+            lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
         }
     }
 
@@ -85,13 +82,6 @@ public class Schedul extends FragmentActivity {
 
         //TODO add achievements from user
 
-
-
-        ListView lvChains = (ListView) findViewById(R.id.lvChains);
-        // needs to be here for the first user-creation. Otherwise we'll get an error
-        if(CURRENTUSER != null) {
-            lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
-        }
 
         Button newChainButton = (Button) findViewById(R.id.b_newChain);
         newChainButton.setOnClickListener(new View.OnClickListener() {
