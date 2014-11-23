@@ -141,6 +141,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //gets us a complete useable user-object with chains and achievements
     public User getEntireUser(int userId){
+        Log.d("database.getUser", "UserId: " + userId);
         User user = getBaseUser(userId);
         user.setUserAchievements(getAchievements(userId));
         user.setUserChains(getChains(userId));

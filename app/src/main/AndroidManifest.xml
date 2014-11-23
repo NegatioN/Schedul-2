@@ -8,9 +8,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Schedul"
-            android:label="@string/app_name"
-            >
+            android:name="main.schedul.joakim.schedul2.Schedul"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,12 +17,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CreateChain"
+            android:name="main.schedul.joakim.schedul2.CreateChain"
             android:label="@string/title_activity_create_chain"
-            android:parentActivityName=".Schedul" >
+            android:parentActivityName="main.schedul.joakim.schedul2.Schedul" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="main.schedul.joakim.schedul2.Schedul" />
+        </activity>
+        <activity
+            android:name="main.schedul.joakim.schedul2.SettingsLoadActivity"
+            android:parentActivityName="main.schedul.joakim.schedul2.Schedul" >
+            android:label="@string/title_settings_fragment" >
         </activity>
     </application>
 

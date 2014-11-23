@@ -10,7 +10,8 @@
     <RelativeLayout
         android:id="@+id/menuContainer"
         android:layout_width="fill_parent"
-        android:layout_height="30dp">
+        android:layout_height="45dp"
+        >
         <TextView
             android:id="@+id/tv_username"
             android:layout_width="@dimen/menu_tv_width"

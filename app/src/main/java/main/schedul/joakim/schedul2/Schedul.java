@@ -3,7 +3,9 @@ package main.schedul.joakim.schedul2;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -25,20 +27,35 @@ public class Schedul extends FragmentActivity {
     private DBHelper db = new DBHelper(this);
     private boolean firstStart = true;
     private static final String FIRST_START = "_START_KEY";
+    public static final String SELECTED_USER_PREF = "SELECTED_USER", PREFS_KEY = "preferences";
 
 
     //TODO add user-stats and name in actionbar, or find a solution for placement
     //TODO add save variables for screen tilt alertdialog.
-    //TODO Create your user on first start. If user in db, only create in settings if(want)
     //TODO make settings
     //TODO Create widgets for chains.
 
+    //called on every screen-update
     @Override
     protected void onResume() {
         super.onResume();
         if(CURRENTUSER != null) {
             ListView lvChains = (ListView) findViewById(R.id.lvChains);
             lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
+        }
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int dbPrimaryKey = Integer.parseInt(preferences.getString(SettingsActivity.LIST_PREF_KEY, "-1"));
+        if(CURRENTUSER.getId() != dbPrimaryKey){
+            CURRENTUSER = db.getEntireUser(dbPrimaryKey);
+            Log.d("Schedul.init", "Name: " + CURRENTUSER.getName());
+            updateUserText();
+
+            ListView lvChains = (ListView) findViewById(R.id.lvChains);
+            // needs to be here for the first user-creation. Otherwise we'll get an error
+            if(CURRENTUSER != null) {
+                lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
+            }
+
         }
     }
 
@@ -51,14 +68,15 @@ public class Schedul extends FragmentActivity {
         if (savedInstanceState != null) {
             Log.d("onCreate", "First Start: " + savedInstanceState.getBoolean(FIRST_START));
         }else{
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            int dbPrimaryKey = Integer.parseInt(preferences.getString(SettingsActivity.LIST_PREF_KEY, "-1"));
 
-
-            if (db.getUsers().isEmpty()) {
+            //if we didnt find a selected user-preference, create a new one.
+            if (dbPrimaryKey == -1) {
                 showUserCreateFragment();
                 firstStart = false;
             } else {
-                //TODO make user selectable via settings
-                CURRENTUSER = db.getEntireUser(db.getLastInsertedUserId());
+                CURRENTUSER = db.getEntireUser(dbPrimaryKey);
                 Log.d("Schedul.init", "Name: " + CURRENTUSER.getName());
                 updateUserText();
             }
@@ -118,6 +136,8 @@ public class Schedul extends FragmentActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, SettingsLoadActivity.class);
+            startActivity(i);
             return true;
         }
         else if(id == R.id.action_newchain){
