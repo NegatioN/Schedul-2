@@ -20,6 +20,4 @@
     <style name="mainHeader">
         <item name="android:background">@drawable/header_drawable</item>
     </style>
-
-
 </resources>

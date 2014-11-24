@@ -119,7 +119,7 @@ public class MinHourDialog extends SimpleDialogFragment{
 
         Log.d("ChainAdapter", "Username: " + user.getName());
 
-        tvXp.setText(user.getLevel().getLevelXp() + "");
-        tvLvl.setText(user.getLevel().getLevel() + "");
+        tvXp.setText("XP: " + user.getLevel().getLevelXp());
+        tvLvl.setText("Lvl: " + user.getLevel().getLevel());
     }
 }

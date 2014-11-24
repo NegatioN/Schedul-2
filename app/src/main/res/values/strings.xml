@@ -10,12 +10,13 @@
     <string name="enter_name">Enter name of new Chain</string>
     <string name="spinner_header">Execute chain every X days</string>
     <string name="create_chain_button">Create Chain</string>
+    <string name="enter_settings">Settings</string>
     <string name="tv_days">Chain every: </string>
     <string name="create_error_message">Please enter a name for your chain.</string>
     <string name="text_username_title">Username</string>
     <string name="title_settings_fragment">Settings</string>
     <string name="list_pref_choose_user">Velg bruker</string>
     <string name="selected_user_summary">Valgt bruker: </string>
-
+    <string name="go_back">Gå tilbake</string>
 
 </resources>

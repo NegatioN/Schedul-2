@@ -3,6 +3,7 @@ package main.schedul.joakim.schedul2;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -77,8 +78,20 @@ public class SettingsActivity extends PreferenceFragment {
         list.setEntries(entrySeq);
         list.setEntryValues(entryValSeq);
 
-
+        final PreferenceFragment frag = this;
 
         this.getPreferenceScreen().addPreference(list);
+
+        //add a back-button preference.
+        Preference backButton = new Preference(getActivity());
+        backButton.setSummary(getResources().getString(R.string.go_back));
+        backButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                getActivity().finish();
+                return false;
+            }
+        });
+        this.getPreferenceScreen().addPreference(backButton);
     }
 }

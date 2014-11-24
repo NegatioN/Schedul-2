@@ -30,11 +30,11 @@ public class Schedul extends FragmentActivity {
     public static final String SELECTED_USER_PREF = "SELECTED_USER", PREFS_KEY = "preferences";
 
 
-    //TODO add user-stats and name in actionbar, or find a solution for placement
     //TODO add save variables for screen tilt alertdialog.
     //TODO add additional settings?
     //TODO Create widgets for chains.
     //TODO make colors persist on get from db chain
+    //TODO make style for buttons
 
     //called on every screen-update
     @Override
@@ -82,12 +82,22 @@ public class Schedul extends FragmentActivity {
 
         //TODO add achievements from user
 
-
+        //new chains-button setup
         Button newChainButton = (Button) findViewById(R.id.b_newChain);
         newChainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), CreateChain.class);
+                startActivity(i);
+            }
+        });
+
+        //settings-button setup
+        Button settingsButton = (Button) findViewById(R.id.b_settings);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), SettingsLoadActivity.class);
                 startActivity(i);
             }
         });
@@ -177,8 +187,9 @@ public class Schedul extends FragmentActivity {
         TextView tvLvl = (TextView) findViewById(R.id.tv_userLvl);
 
         tvUsername.setText(CURRENTUSER.getName());
-        tvXp.setText(CURRENTUSER.getLevel().getLevelXp() + "");
-        tvLvl.setText(CURRENTUSER.getLevel().getLevel() + "");
+        tvXp.setText("XP: " + CURRENTUSER.getLevel().getLevelXp());
+        tvLvl.setText("Lvl: " + CURRENTUSER.getLevel().getLevel());
+
     }
 
 }

@@ -2,7 +2,8 @@
 <resources>
     <color name="high_priority">#E04728</color>
     <color name="black">#000000</color>
-
+    <color name="headerColor">#292929</color>
+    <color name="headerText">#FFFFFF</color>
 
     <!--  Colors for the ListItems representing a Chain -->
     <color name="chained">#00AB1A</color>
