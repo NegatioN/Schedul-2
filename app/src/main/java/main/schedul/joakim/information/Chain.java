@@ -80,7 +80,6 @@ public class Chain {
     /*
         when user adds a task to current chain we calculate all stats
          */
-    //TODO  add user stats i bar.
     public void doTask(int minutes, User user){
         if(isChained()) {
             Time t = new Time();
@@ -158,6 +157,10 @@ public class Chain {
         return xp.getTotalXp();
     }
 
+    public Experience getExperience(){
+        return xp;
+    }
+
     public double getMinutesSpentToday() {
         return minutesSpentToday;
     }
@@ -200,8 +203,10 @@ public class Chain {
         Time t = new Time();
         t.setToNow();
 
-        int percentage = (int) ((t.toMillis(false) - lastUpdated.toMillis(false)) / (mustChainDays * DAYMILLIS)) * 100;
-        Log.d("Chain Percentage", "Percentage: " + percentage);
+        long nowMinusLastUpdateMillis = t.toMillis(false) - lastUpdated.normalize(false);
+        int percentage = (int) (nowMinusLastUpdateMillis / (mustChainDays * DAYMILLIS)) * 100;
+        Log.d("Chain Percentage", "Percentage: " + percentage + "\nMillis diff: " + nowMinusLastUpdateMillis);
+        Log.d("Chain Percentage", "Now: " + t.toString() + "\n" + "Last: " + lastUpdated.toString());
         if(percentage > 100)
             return 100;
         return percentage;

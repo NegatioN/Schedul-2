@@ -100,7 +100,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //METODS FOR INTERACTING WITH USER-DATABASE
 
-    public void addUser(User user){
+    public int addUser(User user){
 
         ContentValues values = new ContentValues();
         values.put(KEY_USERNAME, user.getName());
@@ -113,8 +113,10 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(TABLE_USERS, null, values);
         db.close();
 
+        int id = getLastInsertedUserId();
         //Add all chains to the user.
-        addChainList(getLastInsertedUserId() ,user.getUserChains());
+        addChainList(id ,user.getUserChains());
+        return id;
     }
 
     //get a list of all users (for selecting user-profile etc)
@@ -391,8 +393,8 @@ public class DBHelper extends SQLiteOpenHelper {
         Time t = new Time();
         //this will only work if dateformat = "yyyy-MM-dd-HH-mm-ss";
         int year = Integer.parseInt(dateFromDB.substring(0,4));
-        int month = Integer.parseInt(dateFromDB.substring(5,7)) - 1;
-        int day = Integer.parseInt(dateFromDB.substring(8,10)) - 1;
+        int month = Integer.parseInt(dateFromDB.substring(5,7));
+        int day = Integer.parseInt(dateFromDB.substring(8,10));
         int hour = Integer.parseInt(dateFromDB.substring(11,13));
         int minutes = Integer.parseInt(dateFromDB.substring(14,16));
         int seconds = Integer.parseInt(dateFromDB.substring(17,19));

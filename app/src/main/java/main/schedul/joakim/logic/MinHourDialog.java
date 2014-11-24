@@ -1,7 +1,9 @@
 package main.schedul.joakim.logic;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +38,8 @@ public class MinHourDialog extends SimpleDialogFragment{
         cla = adapter;
     }
 
+
+
     @Override
     public BaseDialogFragment.Builder build(BaseDialogFragment.Builder builder) {
         builder.setTitle(R.string.minhour_title);
@@ -49,6 +53,8 @@ public class MinHourDialog extends SimpleDialogFragment{
         setupTimePicker(hours,minutes,view);
 
         builder.setView(view);
+
+        final MinHourDialog dialog = this;
 
         //finish input button
         builder.setPositiveButton("OK", new View.OnClickListener() {
@@ -64,15 +70,26 @@ public class MinHourDialog extends SimpleDialogFragment{
 
                 //not both counters at zero
                 if((hoursSelected + minutesSelected) > 0) {
-                    chain.doTask((60 * hoursSelected + minutesSelected), staticuser);
-                    updateUserText(staticuser, fa);
+                    int totalMins = 60 * hoursSelected + minutesSelected;
+
+                    if(!chain.getExperience().daySpent(staticuser.getUserChains(), totalMins)){
+                        chain.doTask(totalMins, staticuser);
+                        updateUserText(staticuser, fa);
+                    }else{
+
+                        dismiss();
+                        new AlertDialog.Builder(getActivity()).setTitle(getResources().getString(R.string.time_error)).setMessage(getResources().getString(R.string.time_warning)).setNeutralButton("Tilbake", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dismiss();
+                            }
+                        }).show();
+                    }
                 }
 
 
                 Log.d("chain.onclick", hoursSelected + " : " + minutesSelected);
-                Log.d("chain.onclick", chain.getCurrentExperience()+"");
 
-                Log.d("user.chain.onclick", staticuser.getUserChains().get(0).getCurrentExperience()+"");
                 DBHelper db = new DBHelper(getActivity().getApplicationContext());
                 db.updateChain(chain);
 

@@ -1,5 +1,7 @@
 package main.schedul.joakim.information;
 
+import android.util.Log;
+
 import java.util.List;
 
 /**
@@ -43,6 +45,7 @@ public class Experience {
             collectiveTimeSpent += chain.getMinutesSpentToday();
         }
 
+        Log.d("Experience.daySpent", "Minutes spent:" + collectiveTimeSpent);
         if(collectiveTimeSpent > 24*60 )
             return true;
         return false;

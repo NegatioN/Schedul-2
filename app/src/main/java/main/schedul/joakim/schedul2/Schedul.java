@@ -33,7 +33,6 @@ public class Schedul extends FragmentActivity {
     //TODO add save variables for screen tilt alertdialog.
     //TODO add additional settings?
     //TODO Create widgets for chains.
-    //TODO make colors persist on get from db chain
     //TODO make style for buttons
 
     //called on every screen-update
@@ -41,9 +40,14 @@ public class Schedul extends FragmentActivity {
     protected void onResume() {
         super.onResume();
 
+        //only useful for the first start of app
+        if(CURRENTUSER == null){
+            return;
+        }
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         int dbPrimaryKey = Integer.parseInt(preferences.getString(SettingsActivity.LIST_PREF_KEY, "-1"));
-        if(CURRENTUSER.getId() != dbPrimaryKey){
+        if(CURRENTUSER.getId() != dbPrimaryKey ){
             CURRENTUSER = db.getEntireUser(dbPrimaryKey);
             Log.d("Schedul.init", "Name: " + CURRENTUSER.getName());
             updateUserText();
@@ -62,9 +66,6 @@ public class Schedul extends FragmentActivity {
         setContentView(R.layout.activity_schedul);
 
 
-        if (savedInstanceState != null) {
-            Log.d("onCreate", "First Start: " + savedInstanceState.getBoolean(FIRST_START));
-        }else{
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             int dbPrimaryKey = Integer.parseInt(preferences.getString(SettingsActivity.LIST_PREF_KEY, "-1"));
 
@@ -78,7 +79,7 @@ public class Schedul extends FragmentActivity {
                 updateUserText();
             }
             firstStart = false;
-        }
+
 
         //TODO add achievements from user
 
@@ -110,7 +111,8 @@ public class Schedul extends FragmentActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        db.updateUser(CURRENTUSER);
+        if(CURRENTUSER != null)
+            db.updateUser(CURRENTUSER);
     }
 
     @Override
@@ -162,11 +164,18 @@ public class Schedul extends FragmentActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String value = input.getText().toString();
                 CURRENTUSER = new User(value);
-                db.addUser(CURRENTUSER);
+                int id = db.addUser(CURRENTUSER);
                 updateUserText();
+                /*
                 //creates the listview after user-creation
                 ListView lvChains = (ListView) findViewById(R.id.lvChains);
                 lvChains.setAdapter(new ChainListAdapter(getApplicationContext(), CURRENTUSER.getUserChains(), CURRENTUSER));
+*/
+                //save newly created user as current preference.
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                prefs.edit().putString(SettingsActivity.LIST_PREF_KEY, String.valueOf(id)).commit();
+
+
             }
         });
 
