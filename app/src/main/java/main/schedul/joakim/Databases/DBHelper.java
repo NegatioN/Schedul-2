@@ -259,10 +259,8 @@ public class DBHelper extends SQLiteOpenHelper {
         int priority = cursor.getInt(7);
         int experience = cursor.getInt(8);
         Time time = makeStringToTime(cursor.getString(9));
+        time.normalize(false);
 
-        Log.d("getChain.time", "Raw timeString: " + cursor.getString(9));
-        Log.d("getChain.Time", time.toString());
-        Log.d("getChains.Id", "ChainId: " + chainId);
        return  new Chain(chainId,name, desc, priority, mustchaindays, chainmins, combo, minstoday, time, experience);
     }
 
@@ -392,13 +390,13 @@ public class DBHelper extends SQLiteOpenHelper {
     private Time makeStringToTime(String dateFromDB){
         Time t = new Time();
         //this will only work if dateformat = "yyyy-MM-dd-HH-mm-ss";
-        int year = Integer.parseInt(dateFromDB.substring(0,3));
-        int month = Integer.parseInt(dateFromDB.substring(5,6));
-        int day = Integer.parseInt(dateFromDB.substring(8,9));
-        int hour = Integer.parseInt(dateFromDB.substring(11,12));
-        int minutes = Integer.parseInt(dateFromDB.substring(14,15));
-        int seconds = Integer.parseInt(dateFromDB.substring(17,18));
-
+        int year = Integer.parseInt(dateFromDB.substring(0,4));
+        int month = Integer.parseInt(dateFromDB.substring(5,7)) - 1;
+        int day = Integer.parseInt(dateFromDB.substring(8,10)) - 1;
+        int hour = Integer.parseInt(dateFromDB.substring(11,13));
+        int minutes = Integer.parseInt(dateFromDB.substring(14,16));
+        int seconds = Integer.parseInt(dateFromDB.substring(17,19));
+        Log.d("MakeStringToTime", "Year: " + year + " Month: " + month + " Day: " + day + "\nHour: " + hour + " Min: " + minutes + " Sec: " + seconds);
 
         t.set(seconds, minutes,hour,day,month,year);
         return t;
