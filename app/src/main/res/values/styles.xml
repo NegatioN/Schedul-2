@@ -20,4 +20,7 @@
     <style name="mainHeader">
         <item name="android:background">@drawable/header_drawable</item>
     </style>
+    <style name="button">
+        <item name="android:background">@drawable/schedul_button</item>
+    </style>
 </resources>
