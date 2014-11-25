@@ -43,6 +43,7 @@ public class CreateChain extends FragmentActivity {
             public void onClick(View view) {
                 //gets user input and creates a new chain
                 int days = spinnerValues.getIndex(spinner.getSelectedItemPosition());
+                Log.d("CreateChain", "How often to chain: " + days + " days.");
                 String name = editText.getText().toString();
 
                 //has user entered a name yet?

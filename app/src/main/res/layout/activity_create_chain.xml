@@ -36,13 +36,14 @@
         android:prompt="@string/spinner_header"
         android:entries="@array/day_numbers"
         android:entryValues="@array/day_numbers_values"
-        ></Spinner>
+        style="@style/button"></Spinner>
     <Button
         android:id="@+id/btnCreate"
         android:text="@string/create_chain_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/daysSpinner"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        style="@style/button"/>
 
 </RelativeLayout>

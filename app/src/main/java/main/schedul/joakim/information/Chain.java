@@ -206,7 +206,8 @@ public class Chain {
         t.setToNow();
 
         long nowMinusLastUpdateMillis = t.toMillis(false) - lastUpdated.normalize(false);
-        int percentage = (int) (nowMinusLastUpdateMillis / (mustChainDays * DAYMILLIS)) * 100;
+        long mustMillis = mustChainDays * DAYMILLIS;
+        int percentage = (int) ((nowMinusLastUpdateMillis*100) / mustMillis);
         Log.d("Chain Percentage", "Percentage: " + percentage + "\nMillis diff: " + nowMinusLastUpdateMillis);
         Log.d("Chain Percentage", "Now: " + t.toString() + "\n" + "Last: " + lastUpdated.toString());
         if(percentage > 100)
