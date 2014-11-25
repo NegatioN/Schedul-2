@@ -42,7 +42,7 @@ public class CreateChain extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 //gets user input and creates a new chain
-                int days = spinnerValues.getIndex(spinner.getSelectedItemPosition());
+                int days = spinner.getSelectedItemPosition() + 1;
                 Log.d("CreateChain", "How often to chain: " + days + " days.");
                 String name = editText.getText().toString();
 
