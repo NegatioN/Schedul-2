@@ -23,16 +23,28 @@ public class Experience {
     //takes in the user-defined minutes that the current task lasted.
     //gets the current chain and calculates + adds experience to total
     //returns: current task experience
-    public int calculateExperience(int minutes, int chain){
+    public int calculateExperience(int minutes, int combo){
         double multiplier;
-        if(chain == 0)
+        if(combo == 0)
             multiplier = 1.2;
         else{
-            multiplier = (1 + (chain * 0.1));
+            multiplier = (1 + (combo * 0.1));
         }
         int taskXp = (int) multiplier*minutes;
         updateTotalXp(taskXp);
         return taskXp;
+    }
+
+    public int applyResetExperience(int minutesRemoved, int combo){
+        double multiplier;
+        if(combo == 0)
+            multiplier = 1.2;
+        else{
+            multiplier = (1 + (combo * 0.1));
+        }
+        int dayXp =(int) multiplier*minutesRemoved;
+        setTotalXp(totalXp-dayXp);
+        return dayXp;
     }
 
     //has user already input 24 hours today?
@@ -52,6 +64,10 @@ public class Experience {
 
     public long getTotalXp() {
         return totalXp;
+    }
+
+    public void setTotalXp(long totalXp) {
+        this.totalXp = totalXp;
     }
 
     //simply adds xp to the total count

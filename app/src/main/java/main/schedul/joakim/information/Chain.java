@@ -6,6 +6,8 @@ import android.util.Log;
 
 import java.text.DecimalFormat;
 
+import main.schedul.joakim.schedul2.Schedul;
+
 /**
  * Created by NegatioN on 21.09.2014.
  * The class represents a single user-defined chain that can generate experience based on doing the defined task.
@@ -83,7 +85,7 @@ public class Chain {
             t.setToNow();
 
             //if user has already chained today, don't give additional chains to bonus the xp-gain.
-            if((t.toMillis(false) - lastUpdated.toMillis(false)) > DAYMILLIS){
+            if(minutesSpentToday == 0){
                 currentChain++;
             }
 
@@ -116,6 +118,26 @@ public class Chain {
         if((t.toMillis(false) - lastUpdated.toMillis(false) > chainInMillis))
             return false;
         return true;
+    }
+
+    //resets the info that has been inputted today for this chain.
+    public void resetToday(){
+        if(currentChain != 0)
+            currentChain--;
+        else
+            return;
+        //reset experience.
+        int removedXp = xp.applyResetExperience((int)minutesSpentToday, currentChain);
+        //remove xp from user.
+        Schedul.CURRENTUSER.getLevel().removeExperience(removedXp);
+
+        //sets mins to 0 and detracts from total
+        totalMins -= minutesSpentToday;
+        minutesSpentToday = 0;
+
+        lastUpdated.set(0,0,0,lastUpdated.monthDay-(mustChainDays-1),lastUpdated.month, lastUpdated.year);
+        lastUpdated.normalize(false);
+
     }
 
 

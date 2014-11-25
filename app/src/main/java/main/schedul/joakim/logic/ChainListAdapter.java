@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -121,7 +122,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
 
 
         Resources resources = context.getResources();
-        //define the view-info in the
+        //define the view-info in the alertdialog
         LayoutInflater inflater = ((Activity)context).getLayoutInflater();
         View view = inflater.inflate(R.layout.edit_chain_view, null);
         final EditText editName = (EditText) view.findViewById(R.id.et_editname);
@@ -130,19 +131,25 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         final Spinner spinner = (Spinner) view.findViewById(R.id.daysEditSpinner);
         spinner.setSelection(selectedChain.getMustChainDays() - 1);
 
+        final CheckBox checkBox = (CheckBox) view.findViewById(R.id.check_reset);
+
+
+        //define alertdialog options
        AlertDialog.Builder dialog = new AlertDialog.Builder(context).setTitle(resources.getString(R.string.edit_cain_title)).setView(view);
         dialog.setPositiveButton("Endre", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 boolean etEmpty = isEmpty(editName);
                 boolean mustChainDaysSame = spinner.getSelectedItemPosition() == (selectedChain.getMustChainDays() -1);
-                if(!etEmpty || !mustChainDaysSame) {
+                if(!etEmpty || !mustChainDaysSame || checkBox.isChecked()) {
 
                     Chain chain = selectedChain;
                     if(!etEmpty)
                         chain.setName(editName.getText().toString());
                     if(!mustChainDaysSame)
                         chain.setMustChainDays(spinner.getSelectedItemPosition()+1);
+                    if(checkBox.isChecked())
+                        chain.resetToday();
                     DBHelper db = new DBHelper(context);
                     db.updateChain(chain);
                     cla.notifyDataSetChanged();

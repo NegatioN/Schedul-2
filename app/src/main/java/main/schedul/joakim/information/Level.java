@@ -34,6 +34,13 @@ public class Level {
 
     }
 
+    public void removeExperience(int experience){
+        levelXp -= experience;
+        if(isLevelDown())
+            //DO SOMETHING
+        return;
+    }
+
     //what experience is required to surpass the user's current level?
     public int requiredXp(){
        return (int) (level*COEFFICIENT*BASE_EXPERIENCE);
@@ -48,11 +55,27 @@ public class Level {
         }
         return isLevel;
     }
+    //has the user leveled down because of resetting a chain-xp for the day?
+    private boolean isLevelDown(){
+
+        boolean isLevelDown = false;
+        while(levelXp < 0){
+            levelDown();
+            isLevelDown = true;
+        }
+        return isLevelDown;
+    }
 
     //levels up the users, and transfers remaining xp to the next level.
     private void levelUp(){
         levelXp -= requiredXp();
         level++;
+    }
+    //levels the user down if reset xp
+    private void levelDown(){
+        level--;
+        levelXp += requiredXp();
+
     }
 
     public int getLevel() {
