@@ -75,6 +75,7 @@
             android:layout_alignParentRight="true"
             android:text="New Chain"
             android:layout_margin="1.5dp"
+            android:textSize="17sp"
             style="@style/button"/>
         <Button
             android:id="@+id/b_settings"
@@ -83,6 +84,7 @@
             android:layout_alignParentLeft="true"
             android:text="@string/enter_settings"
             android:layout_margin="1.5dp"
+            android:textSize="17sp"
             style="@style/button"/>
     </RelativeLayout>
 

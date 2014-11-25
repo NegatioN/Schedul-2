@@ -34,36 +34,36 @@
     </integer-array>
 
     <string-array name="day_numbers">
-        <item>day</item>
-        <item>2 days</item>
-        <item>3 days</item>
-        <item>4 days</item>
-        <item>5 days</item>
-        <item>6 days</item>
-        <item>7 days</item>
-        <item>8 days</item>
-        <item>9 days</item>
-        <item>10 days</item>
-        <item>11 days</item>
-        <item>12 days</item>
-        <item>13 days</item>
-        <item>14 days</item>
-        <item>15 days</item>
-        <item>16 days</item>
-        <item>17 days</item>
-        <item>18 days</item>
-        <item>19 days</item>
-        <item>20 days</item>
-        <item>21 days</item>
-        <item>22 days</item>
-        <item>23 days</item>
-        <item>24 days</item>
-        <item>25 days</item>
-        <item>26 days</item>
-        <item>27 days</item>
-        <item>28 days</item>
-        <item>29 days</item>
-        <item>30 days</item>
+        <item>dag</item>
+        <item>2. dag</item>
+        <item>3. dag</item>
+        <item>4. dag</item>
+        <item>5. dag</item>
+        <item>6. dag</item>
+        <item>7. dag</item>
+        <item>8. dag</item>
+        <item>9. dag</item>
+        <item>10. dag</item>
+        <item>11. dag</item>
+        <item>12. dag</item>
+        <item>13. dag</item>
+        <item>14. dag</item>
+        <item>15. dag</item>
+        <item>16. dag</item>
+        <item>17. dag</item>
+        <item>18. dag</item>
+        <item>19. dag</item>
+        <item>20. dag</item>
+        <item>21. dag</item>
+        <item>22. dag</item>
+        <item>23. dag</item>
+        <item>24. dag</item>
+        <item>25. dag</item>
+        <item>26. dag</item>
+        <item>27. dag</item>
+        <item>28. dag</item>
+        <item>29. dag</item>
+        <item>30. dag</item>
     </string-array>
 
 

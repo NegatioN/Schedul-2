@@ -50,8 +50,6 @@ public class CreateChain extends FragmentActivity {
                 if(!isEmpty(editText)) {
                     createChain(name, name, 2, days);
 
-
-
                     //after creating chain, go back to main screen.
                     finish();
                 }else{

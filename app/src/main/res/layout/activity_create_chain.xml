@@ -2,15 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="main.schedul.joakim.schedul2.CreateChain">
 
+    tools:context="main.schedul.joakim.schedul2.CreateChain">
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
     <EditText
         android:id="@+id/etName"
         android:layout_width="fill_parent"
+
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -18,6 +22,7 @@
 
     <TextView
         android:id="@+id/tvDays"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -36,14 +41,25 @@
         android:prompt="@string/spinner_header"
         android:entries="@array/day_numbers"
         android:entryValues="@array/day_numbers_values"
-        style="@style/button"></Spinner>
+        ></Spinner>
+</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/botContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        style="@style/mainHeader"
+        android:layout_alignParentBottom="true"
+        >
     <Button
         android:id="@+id/btnCreate"
         android:text="@string/create_chain_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/daysSpinner"
+        android:layout_width="100dp"
+        android:layout_height="fill_parent"
+        android:textSize="17sp"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="1.5dp"
         style="@style/button"/>
+        </RelativeLayout>
 
 </RelativeLayout>

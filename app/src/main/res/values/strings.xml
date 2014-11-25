@@ -7,11 +7,11 @@
     <string name="action_newchain">New Chain</string>
     <string name="title_activity_create_chain">CreateChain</string>
     <string name="minhour_title">Select Time Spent</string>
-    <string name="enter_name">Enter name of new Chain</string>
-    <string name="spinner_header">Execute chain every X days</string>
-    <string name="create_chain_button">Create Chain</string>
+    <string name="enter_name">Skriv et navn for lenken</string>
+    <string name="spinner_header">Utfør lenken hver X dag: </string>
+    <string name="create_chain_button">Lag lenke</string>
     <string name="enter_settings">Settings</string>
-    <string name="tv_days">Chain every: </string>
+    <string name="tv_days">Lenk hver: </string>
     <string name="create_error_message">Please enter a name for your chain.</string>
     <string name="text_username_title">Username</string>
     <string name="title_settings_fragment">Settings</string>

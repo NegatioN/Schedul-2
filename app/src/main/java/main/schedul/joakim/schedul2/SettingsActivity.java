@@ -1,5 +1,7 @@
 package main.schedul.joakim.schedul2;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -8,6 +10,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,15 @@ public class SettingsActivity extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.layout.settings_layout);
+
+        Preference button = (Preference)findPreference("button");
+        button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                showUserCreateFragment();
+                return true;
+            }
+        });
     }
     //dynamically sets the list of users in the database to be selected by clicking the preference-list.
     @Override
@@ -61,6 +73,7 @@ public class SettingsActivity extends PreferenceFragment {
         String userpref = preferences.getString(LIST_PREF_KEY, null);
 
         if(userpref != null){
+            list.setTitle(R.string.list_pref_choose_user);
             //sets header of preference to display current chosen name.
             String selectedUserString = getString(R.string.selected_user_summary);
             //itereates over entryvalues that are unique and finds the selected user-name
@@ -68,7 +81,7 @@ public class SettingsActivity extends PreferenceFragment {
             list.setSummary(selectedUserString + name);
         }else{
             //if no user selected, set default text.
-            list.setSummary(R.string.list_pref_choose_user);
+            list.setTitle(R.string.list_pref_choose_user);
         }
 
         CharSequence[] entrySeq = entries.toArray(new CharSequence[entries.size()]);
@@ -93,5 +106,45 @@ public class SettingsActivity extends PreferenceFragment {
             }
         });
         this.getPreferenceScreen().addPreference(backButton);
+
+        if(Schedul.CURRENTUSER != null)
+            db.updateUser(Schedul.CURRENTUSER);
+    }
+
+    private void showUserCreateFragment(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+        alert.setTitle("Ingen brukere finnes");
+        alert.setMessage("Hva heter du?");
+
+// Set an EditText view to get user input
+        final EditText input = new EditText(getActivity());
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                DBHelper db = new DBHelper(getActivity());
+                String value = input.getText().toString();
+                User user = new User(value);
+                int id = db.addUser(user);
+                if(Schedul.CURRENTUSER != null)
+                    db.updateUser(Schedul.CURRENTUSER);
+
+                //save newly created user as current preference.
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                prefs.edit().putString(SettingsActivity.LIST_PREF_KEY, String.valueOf(id)).commit();
+                getActivity().finish();
+
+            }
+        });
+
+        alert.setNegativeButton("Avslutt", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
     }
 }
