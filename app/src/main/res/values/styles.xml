@@ -4,7 +4,6 @@
     <style name="AppTheme" parent="android:Theme.Light.NoTitleBar">
         <!-- Customize your theme here. -->
         <item name="sdlDialogStyle">@style/DialogStyleDark</item>
-        <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
     </style>
     <style name="statText">
         <item name="android:textSize">10sp</item>
@@ -25,8 +24,4 @@
         <item name="android:background">@drawable/schedul_button</item>
     </style>
 
-    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.Spinner">
-        <item name="android:textSize">20sp</item>
-        <item name="android:background">@drawable/schedul_button</item>
-    </style>
 </resources>

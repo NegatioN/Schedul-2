@@ -1,6 +1,10 @@
 package main.schedul.joakim.logic;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -8,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import main.schedul.joakim.Databases.DBHelper;
 import main.schedul.joakim.information.Chain;
 import main.schedul.joakim.information.User;
 import main.schedul.joakim.schedul2.R;
@@ -85,7 +92,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         rowView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                displayEditDialog();
+                displayEditDialog(selectedChain, user);
                 return false;
             }
         });
@@ -107,9 +114,57 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
     }
     //TODO implement onTouch /hold listener for reset of previously entered info today, or name-change.
     //displays a dialog that lets us edit our currently selected chain
-    private void displayEditDialog(){
+    private void displayEditDialog(final Chain selectedChain, User user){
 
-        //this.notifyDataSetChanged();
+        //used for access in inner class
+        final ChainListAdapter cla = this;
+
+
+        Resources resources = context.getResources();
+        //define the view-info in the
+        LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+        View view = inflater.inflate(R.layout.edit_chain_view, null);
+        final EditText editName = (EditText) view.findViewById(R.id.et_editname);
+        editName.setText(selectedChain.getName());
+
+        final Spinner spinner = (Spinner) view.findViewById(R.id.daysEditSpinner);
+        spinner.setSelection(selectedChain.getMustChainDays() - 1);
+
+       AlertDialog.Builder dialog = new AlertDialog.Builder(context).setTitle(resources.getString(R.string.edit_cain_title)).setView(view);
+        dialog.setPositiveButton("Endre", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                boolean etEmpty = isEmpty(editName);
+                boolean mustChainDaysSame = spinner.getSelectedItemPosition() == (selectedChain.getMustChainDays() -1);
+                if(!etEmpty || !mustChainDaysSame) {
+
+                    Chain chain = selectedChain;
+                    if(!etEmpty)
+                        chain.setName(editName.getText().toString());
+                    if(!mustChainDaysSame)
+                        chain.setMustChainDays(spinner.getSelectedItemPosition()+1);
+                    DBHelper db = new DBHelper(context);
+                    db.updateChain(chain);
+                    cla.notifyDataSetChanged();
+                }
+            }
+        });
+        dialog.setNegativeButton("Tilbake", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    //checks if our edittext is empty
+    private boolean isEmpty(EditText etText) {
+        if (etText.getText().toString().trim().length() > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 

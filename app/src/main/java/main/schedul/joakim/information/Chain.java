@@ -35,9 +35,6 @@ public class Chain {
 
 
 
-    public int getMustChainDays() {
-        return mustChainDays;
-    }
 
     /**
      * @param name              The name of the Chain, ex "programming", "Soccer", "Japanese-studies"
@@ -171,6 +168,13 @@ public class Chain {
 
     public void setMinutesSpentToday(double minutesSpentToday) {
         this.minutesSpentToday = minutesSpentToday;
+    }
+    public int getMustChainDays() {
+        return mustChainDays;
+    }
+
+    public void setMustChainDays(int mustChainDays) {
+        this.mustChainDays = mustChainDays;
     }
 
     public int getId() {

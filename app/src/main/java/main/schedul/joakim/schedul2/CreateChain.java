@@ -1,6 +1,5 @@
 package main.schedul.joakim.schedul2;
 
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -23,7 +22,6 @@ public class CreateChain extends FragmentActivity {
     private Spinner spinner;
     private EditText editText;
     private Button createButton;
-    private TypedArray spinnerValues;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +33,6 @@ public class CreateChain extends FragmentActivity {
         editText = (EditText) findViewById(R.id.etName);
         createButton = (Button) findViewById(R.id.btnCreate);
 
-        spinnerValues = getResources().obtainTypedArray(R.array.day_numbers_values);
         final CreateChain context = this;
 
         createButton.setOnClickListener(new View.OnClickListener() {

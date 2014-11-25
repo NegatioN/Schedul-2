@@ -20,5 +20,6 @@
     <string name="go_back">Gå tilbake</string>
     <string name="time_error">Advarsel</string>
     <string name="time_warning">Du har prøvd å legge til mer enn 24 timer på ett døgn.</string>
+    <string name="edit_cain_title">Endre lenke</string>
 
 </resources>
