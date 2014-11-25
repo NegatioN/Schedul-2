@@ -117,4 +117,11 @@ public class User {
     public int getId() {
         return userId;
     }
+
+    //resets minutes spent today on each chain
+    public void setNewday(){
+        for(Chain chain : userChains){
+            chain.setMinutesSpentToday(0);
+        }
+    }
 }

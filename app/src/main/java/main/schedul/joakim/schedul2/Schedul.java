@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +28,7 @@ public class Schedul extends FragmentActivity {
     private DBHelper db = new DBHelper(this);
     private boolean firstStart = true;
     private static final String FIRST_START = "_START_KEY";
-    public static final String SELECTED_USER_PREF = "SELECTED_USER", PREFS_KEY = "preferences";
+    public static final String CURRENT_DAY_PREF = "CURRENT_DAY";
 
 
     //TODO add save variables for screen tilt alertdialog.
@@ -47,6 +48,12 @@ public class Schedul extends FragmentActivity {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         int dbPrimaryKey = Integer.parseInt(preferences.getString(SettingsActivity.LIST_PREF_KEY, "-1"));
+
+        String compareDay = preferences.getString(CURRENT_DAY_PREF, "0000.00.00");
+
+        if(isNewDay(compareDay, preferences))
+            CURRENTUSER.setNewday();
+
         if(CURRENTUSER.getId() != dbPrimaryKey ){
             CURRENTUSER = db.getEntireUser(dbPrimaryKey);
             Log.d("Schedul.init", "Name: " + CURRENTUSER.getName());
@@ -199,6 +206,33 @@ public class Schedul extends FragmentActivity {
         tvXp.setText("XP: " + CURRENTUSER.getLevel().getLevelXp());
         tvLvl.setText("Lvl: " + CURRENTUSER.getLevel().getLevel());
 
+    }
+
+    //method to refresh "current day in prefs" if more than one day has passed since user logged on/refreshed screen.
+    private boolean isNewDay(String compareday, SharedPreferences preferences){
+        Time t = new Time();
+        t.setToNow();
+
+        int compareYear = Integer.parseInt(compareday.substring(0,4));
+        int compareMonth = Integer.parseInt(compareday.substring(5,7));
+        int compareDay = Integer.parseInt(compareday.substring(8,10));
+
+        if(compareYear > t.year){
+            preferences.edit().putString(CURRENT_DAY_PREF, t.year + "." + t.month + "." + t.monthDay).commit();
+            return true;
+        }else if( compareYear == t.year){
+            if(compareMonth > t.month){
+                preferences.edit().putString(CURRENT_DAY_PREF, t.year + "." + t.month + "." + t.monthDay).commit();
+                return true;
+            }else if(compareMonth == t.month){
+                if(compareDay > t.monthDay) {
+                    preferences.edit().putString(CURRENT_DAY_PREF, t.year + "." + t.month + "." + t.monthDay).commit();
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 }

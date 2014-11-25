@@ -89,9 +89,6 @@ public class Chain {
             if((t.toMillis(false) - lastUpdated.toMillis(false)) > DAYMILLIS){
                 currentChain++;
             }
-            //it's a new day, minutesSpentToday set to 0
-            if(lastUpdated.yearDay < t.yearDay || t.yearDay == 0)
-                minutesSpentToday = 0;
 
         }
         else
@@ -171,6 +168,11 @@ public class Chain {
     public Time getLastUpdated() {
         return lastUpdated;
     }
+
+    public void setMinutesSpentToday(double minutesSpentToday) {
+        this.minutesSpentToday = minutesSpentToday;
+    }
+
     public int getId() {
         return chainid;
     }

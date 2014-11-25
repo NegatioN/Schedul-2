@@ -393,7 +393,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Time t = new Time();
         //this will only work if dateformat = "yyyy-MM-dd-HH-mm-ss";
         int year = Integer.parseInt(dateFromDB.substring(0,4));
-        int month = Integer.parseInt(dateFromDB.substring(5,7));
+        int month = Integer.parseInt(dateFromDB.substring(5,7)) - 1;
         int day = Integer.parseInt(dateFromDB.substring(8,10));
         int hour = Integer.parseInt(dateFromDB.substring(11,13));
         int minutes = Integer.parseInt(dateFromDB.substring(14,16));
