@@ -65,7 +65,7 @@
         android:id="@+id/botContainer"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
-        style="@style/mainHeader"
+        android:background="@drawable/header_drawable_bottom"
         android:layout_alignParentBottom="true"
         >
         <Button

@@ -247,7 +247,7 @@ public class Chain {
     public int getDisplayColor(){
         float hue = (float)Math.floor((100 - getPercentageTimeout()) * 120 / 100);
 
-        return HSVToColor(hue, 70, 90);
+        return HSVToColor(hue, 80, 90);
     }
 
     //method for easy input of hue, saturation and value

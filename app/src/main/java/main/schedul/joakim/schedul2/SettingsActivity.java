@@ -114,7 +114,7 @@ public class SettingsActivity extends PreferenceFragment {
     private void showUserCreateFragment(){
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
 
-        alert.setTitle("Ingen brukere finnes");
+        alert.setTitle("Lag en ny bruker");
         alert.setMessage("Hva heter du?");
 
 // Set an EditText view to get user input
