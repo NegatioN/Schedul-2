@@ -203,6 +203,7 @@ public class DBHelper extends SQLiteOpenHelper {
             addChain(userid,chain);
     }
 
+
     public void addChain(int userId, Chain chain){
         SQLiteDatabase db = this.getWritableDatabase();
 

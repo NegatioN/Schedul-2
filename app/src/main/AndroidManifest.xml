@@ -34,6 +34,19 @@
             android:label="@string/title_settings_fragment">
 
         </activity>
+        <activity android:name=".ConfigureWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"></action>
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".WidgetBroadcaster" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
     </application>
 
 </manifest>
