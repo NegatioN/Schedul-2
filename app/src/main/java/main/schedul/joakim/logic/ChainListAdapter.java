@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -113,7 +112,6 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
        // this.notifyDataSetChanged();
 
     }
-    //TODO implement onTouch /hold listener for reset of previously entered info today, or name-change.
     //displays a dialog that lets us edit our currently selected chain
     private void displayEditDialog(final Chain selectedChain, User user){
 
@@ -121,7 +119,6 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         final ChainListAdapter cla = this;
 
 
-        Resources resources = context.getResources();
         //define the view-info in the alertdialog
         LayoutInflater inflater = ((Activity)context).getLayoutInflater();
         View view = inflater.inflate(R.layout.edit_chain_view, null);
@@ -135,7 +132,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
 
 
         //define alertdialog options
-       AlertDialog.Builder dialog = new AlertDialog.Builder(context).setTitle(resources.getString(R.string.edit_cain_title)).setView(view);
+       AlertDialog.Builder dialog = new AlertDialog.Builder(context).setTitle(context.getResources().getString(R.string.edit_cain_title)).setView(view);
         dialog.setPositiveButton("Endre", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

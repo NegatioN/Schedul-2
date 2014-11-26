@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:gravity="center_horizontal">
+    android:padding="8dp">
 
     <EditText
         android:id="@+id/et_editname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:padding="3dp"
         />
     <Spinner
         android:id="@+id/daysEditSpinner"
@@ -19,7 +18,6 @@
         android:prompt="@string/spinner_header"
         android:entries="@array/day_numbers"
         android:entryValues="@array/day_numbers_values"
-        android:padding="3dp"
 
         ></Spinner>
     <CheckBox
@@ -28,7 +26,6 @@
         android:textColor="@color/headerText"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/daysEditSpinner"
-        android:padding="3dp"></CheckBox>
+        android:layout_below="@id/daysEditSpinner"></CheckBox>
 
 </RelativeLayout>

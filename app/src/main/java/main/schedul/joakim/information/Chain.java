@@ -244,7 +244,11 @@ public class Chain {
     //for setting background-color of widgets or listitems depending on how far the chain is from timing out.
     //gets a color from green to red depending on the state of the chain.
     public int getDisplayColor(){
-        float hue = (float)Math.floor((100 - getPercentageTimeout()) * 120 / 100);
+        int percentage = 100 - getPercentageTimeout();
+        //if at 0%, return a grey color to overlay.
+        if(percentage == 0)
+            return HSVToColor(100, 0, 15);
+        float hue = (float)Math.floor(percentage * 120 / 100);
 
         return HSVToColor(hue, 80, 90);
     }

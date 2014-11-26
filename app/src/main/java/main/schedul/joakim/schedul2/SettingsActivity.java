@@ -25,6 +25,7 @@ import main.schedul.joakim.information.User;
 public class SettingsActivity extends PreferenceFragment {
     public static final String LIST_PREF_KEY = "USER_LIST_PREF";
 
+//TODO fix layout of settings
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
