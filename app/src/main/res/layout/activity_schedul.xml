@@ -15,7 +15,7 @@
         android:paddingBottom="8dp"
 
         >
-        <!-- Sum of textfields + button must == 320dp for Nexus S-->
+        <!-- Sum of textfields + button must == 480dpi? for Nexus S-->
         <TextView
             android:id="@+id/tv_username"
             android:layout_width="@dimen/menu_tv_width"

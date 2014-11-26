@@ -56,7 +56,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Drawable drawable = context.getResources().getDrawable(R.drawable.row_drawable);
+        Drawable drawable = context.getResources().getDrawable(R.drawable.schedul_row);
 
         final Chain selectedChain = chains.get(position);
         Log.d("Inflate.GetView", "Chainview at pos: " + position + "created");
