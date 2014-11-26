@@ -241,7 +241,6 @@ public class Chain {
         return percentage;
     }
 
-    //TODO tweak colors, get a more "filling look"
     //for setting background-color of widgets or listitems depending on how far the chain is from timing out.
     //gets a color from green to red depending on the state of the chain.
     public int getDisplayColor(){

@@ -73,7 +73,7 @@
             android:layout_width="100dp"
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
-            android:text="New Chain"
+            android:text="Lag lenke"
             android:layout_margin="1.5dp"
             android:textSize="17sp"
             style="@style/button"/>

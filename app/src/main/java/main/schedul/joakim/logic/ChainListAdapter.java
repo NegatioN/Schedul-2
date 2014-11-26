@@ -34,8 +34,8 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
     //TODO fix how each individual list-item looks like.
     //TODO let a chain be a "header-object" in list. Sub-goals should be smaller, and the ones we add time to. (also let add time to main?)
 
-    private static final String EXPERIENCE = "Experience: ";
-    private static final String HOURS = "Hours: ";
+    private static final String EXPERIENCE = "XP: ";
+    private static final String HOURS = "Timer: ";
 
     private Context context;
     private ArrayList<Chain> chains;
