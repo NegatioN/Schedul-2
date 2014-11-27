@@ -3,7 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Light.NoTitleBar">
         <!-- Customize your theme here. -->
-        <item name="sdlDialogStyle">@style/DialogStyleDark</item>
     </style>
     <style name="statText">
         <item name="android:textSize">12sp</item>
