@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.text.format.Time;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -30,23 +29,22 @@ public class WidgetBroadcaster extends AppWidgetProvider {
         ComponentName thisWidget = new ComponentName(context, WidgetBroadcaster.class);
 
 
-        Intent buttonIntent = new Intent(context, WidgetBroadcaster.class);
-        buttonIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        buttonIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetManager.getAppWidgetIds(thisWidget));
-
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, buttonIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        Time t = new Time();
-        t.setToNow();
-
         DBHelper db = new DBHelper(context);
         int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+
+        Intent buttonIntent = new Intent(context,WidgetBroadcaster.class);
+        buttonIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        buttonIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
+
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, buttonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         for (int widgetId : allWidgetIds) {
             Chain chain = db.getWidgetChain(widgetId);
             if(chain == null) {
                 Log.d("WidgetBroadcast.onUpdate", "Widget: " + widgetId + " == null");
 
             }else {
+
                 RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
                 // Set the text

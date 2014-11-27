@@ -31,6 +31,7 @@ public class Schedul extends FragmentActivity {
     public static final String CURRENT_DAY_PREF = "CURRENT_DAY";
 
 
+    //TODO set holo style timepickers
     //TODO add save variables for screen tilt alertdialog.
     //TODO add additional settings?
     //TODO Create widgets for chains.

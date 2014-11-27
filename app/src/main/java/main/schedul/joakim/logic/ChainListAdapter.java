@@ -150,6 +150,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
                     DBHelper db = new DBHelper(context);
                     db.updateChain(chain);
                     cla.notifyDataSetChanged();
+                    updateUserText(Schedul.CURRENTUSER, context);
                 }
             }
         });

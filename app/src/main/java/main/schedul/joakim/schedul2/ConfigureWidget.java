@@ -126,11 +126,11 @@ public class ConfigureWidget extends Activity {
 
                     remoteViews.setInt(R.id.tv_widget, "setBackgroundColor", chain.getDisplayColor());
 
-                    Intent intent = new Intent();
+                    Intent intent = new Intent(config ,WidgetBroadcaster.class);
                     intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
                     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetID);
 
-                    PendingIntent pi = PendingIntent.getBroadcast(config.getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    PendingIntent pi = PendingIntent.getBroadcast(config.getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     remoteViews.setOnClickPendingIntent(R.id.tv_widget, pi);
 
                     widgetManager.updateAppWidget(widgetID, remoteViews);
