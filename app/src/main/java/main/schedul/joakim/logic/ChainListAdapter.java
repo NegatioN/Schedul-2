@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -106,7 +107,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
 
     //displays our dialog with minute/hour input for the current chain
     private void displayMinuteDialog(Chain selectedChain, User user){
-        MinHourDialog.show((Schedul)context, selectedChain, user, this);
+        showTimePicker(selectedChain);
 
        // this.notifyDataSetChanged();
 
@@ -161,6 +162,70 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         dialog.show();
     }
 
+
+    private void showTimePicker(final Chain chain){
+        final ChainListAdapter cla = this;
+
+        LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+        View view = inflater.inflate(R.layout.min_hour_frag_layout, null);
+
+        //NumberPickers get defined
+        final NumberPicker hours = (NumberPicker)view.findViewById(R.id.npHour);
+        final NumberPicker minutes = (NumberPicker) view.findViewById(R.id.npMinute);
+
+        setupTimePicker(hours,minutes,view);
+
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(context).setTitle("Legg til tid brukt på lenken").setView(view);
+
+        dialog.setPositiveButton("Legg til", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                int hoursSelected = hours.getValue();
+                int minutesSelected = minutes.getValue();
+
+
+                //not both counters at zero
+                if((hoursSelected + minutesSelected) > 0) {
+                    int totalMins = 60 * hoursSelected + minutesSelected;
+
+                    if(!chain.getExperience().daySpent(Schedul.CURRENTUSER.getUserChains(), totalMins)){
+                        chain.doTask(totalMins, Schedul.CURRENTUSER, context);
+                        updateUserText(Schedul.CURRENTUSER, context);
+                    }else{
+
+                        dialogInterface.dismiss();
+                        new AlertDialog.Builder(context).setTitle(context.getResources().getString(R.string.time_error)).setMessage(context.getResources().getString(R.string.time_warning)).setNeutralButton("Tilbake", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+                    }
+                }
+
+
+                Log.d("chain.onclick", hoursSelected + " : " + minutesSelected);
+
+                DBHelper db = new DBHelper(context.getApplicationContext());
+                db.updateChain(chain);
+
+                //must be called here to make views update correctly.
+                cla.notifyDataSetChanged();
+                dialogInterface.dismiss();
+            }
+        });
+        //exit button added
+        dialog.setNegativeButton("Tilbake", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        dialog.show();
+
+    }
+
+
     //checks if our edittext is empty
     private boolean isEmpty(EditText etText) {
         if (etText.getText().toString().trim().length() > 0) {
@@ -169,8 +234,33 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
             return true;
         }
     }
+    private void updateUserText(User user, Context context){
+        TextView tvXp = (TextView) ((Activity)context).findViewById(R.id.tv_userXP);
+        TextView tvLvl = (TextView)((Activity)context). findViewById(R.id.tv_userLvl);
+
+        Log.d("ChainAdapter", "Username: " + user.getName());
+
+        tvXp.setText("XP: " + user.getLevel().getLevelXp());
+        tvLvl.setText("Lvl: " + user.getLevel().getLevel());
+    }
+
+    //defines our custom time-picker
+    private void setupTimePicker(NumberPicker hp, NumberPicker mp, View inflatedView){
+        hp = (NumberPicker) inflatedView.findViewById(R.id.npHour);
+        mp = (NumberPicker) inflatedView.findViewById(R.id.npMinute);
 
 
+        //TODO define color of numberpicker numbers-text
+        hp.setMinValue(0);
+        hp.setMaxValue(23);
+        mp.setMinValue(0);
+        mp.setMaxValue(59);
+
+        hp.setFocusable(true);
+        hp.setFocusableInTouchMode(true);
+        mp.setFocusable(true);
+        mp.setFocusableInTouchMode(true);
+    }
 
 
 }

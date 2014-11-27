@@ -196,6 +196,7 @@ public class Schedul extends FragmentActivity {
         alert.show();
     }
 
+
     //updates the three textfields that relate to username, xp and level
     private void updateUserText(){
         TextView tvUsername = (TextView) findViewById(R.id.tv_username);

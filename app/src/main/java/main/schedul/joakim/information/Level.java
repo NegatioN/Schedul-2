@@ -35,7 +35,7 @@ public class Level {
         int previousLevel = level;
         if(isLevel()) {
             //TODO some sort of animation for level-up
-            AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Gratulerer!").setMessage("Du gikk fra level " + previousLevel + " til " + level + "\nStå på!");
+            AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Gratulerer!!!").setMessage("Du gikk fra level " + previousLevel + " til " + level + "\nStå på!");
             builder.setNeutralButton("Woho!", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

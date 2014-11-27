@@ -1,5 +1,7 @@
 package main.schedul.joakim.schedul2;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -10,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import eu.inmite.android.lib.dialogs.SimpleDialogFragment;
 import main.schedul.joakim.Databases.DBHelper;
 import main.schedul.joakim.information.Chain;
 
@@ -18,7 +19,6 @@ import main.schedul.joakim.information.Chain;
 public class CreateChain extends FragmentActivity {
 
     //TODO create nicer layout for activity
-    //TODO remove "simpleDialogFragments"
     private Spinner spinner;
     private EditText editText;
     private Button createButton;
@@ -50,8 +50,15 @@ public class CreateChain extends FragmentActivity {
                     //after creating chain, go back to main screen.
                     finish();
                 }else{
-                    //TODO port to normal Alertdialog
-                    SimpleDialogFragment.createBuilder(context, getSupportFragmentManager()).setMessage(R.string.create_error_message).show();
+                    //SimpleDialogFragment.createBuilder(context, getSupportFragmentManager()).setMessage(R.string.create_error_message).show();
+                    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                    dialogBuilder.setMessage("Vennligst skriv inn et navn for lenken din.");
+                    dialogBuilder.setNeutralButton("Lukk", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).show();
                 }
             }
         });
