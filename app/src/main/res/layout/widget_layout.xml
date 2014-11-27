@@ -4,14 +4,19 @@
     android:shadowRadius="3"
     android:layout_gravity="center"
     >
+
     <TextView
         android:id="@+id/tv_widget"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+
+        android:text="XML TEST-TEXT"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/schedul_row"
-        android:padding="5dp"
-        android:textColor="@color/headerText"
-        android:textSize="8sp"
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        android:gravity="center"
+
         />
 
 </RelativeLayout>

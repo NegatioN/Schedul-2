@@ -29,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private final static String TABLE_USERS = "Users";
     private final static String TABLE_CHAINS = "Chains";
     private final static String TABLE_ACHIEVEMENTS = "Achievements";
+    private final static String TABLE_WIDGETS = "Widgets";
     private final static int DB_VERSION = 2;
 
     //Keys for user-table
@@ -39,6 +40,8 @@ public class DBHelper extends SQLiteOpenHelper {
     //Keys for achievement-table
     private final static String KEY_ACH_ID = "_ID", KEY_ACH_TYPE = "_TYPE", KEY_ACH_NAME = "_NAME", KEY_ACH_ACHIEVED = "_ACHIEVED", KEY_ACH_SIMPLE_OR_TOTAL = "_SIMPLEORTOTAL",
     KEY_ACH_GOAL = "_GOAL";
+    //Widget-keys
+    private final static String KEY_WIDGETID = "_WIDGETID";
     //Achievement-types
     private static final int TYPE_COMBO = 1, TYPE_EXPERIENCE = 2, TYPE_TIME = 3;
     private static final int TYPE_SIMPLE = 4, TYPE_TOTAL = 5;
@@ -88,6 +91,13 @@ public class DBHelper extends SQLiteOpenHelper {
                 KEY_ACH_GOAL + " INTEGER)";
 
         sqLiteDatabase.execSQL(createTable);
+
+
+        createTable = "CREATE TABLE " + TABLE_WIDGETS + "(" +
+                KEY_WIDGETID + " INTEGER PRIMARY KEY NOT NULL, " +
+                KEY_CHAINID + " INTEGER NOT NULL)";
+        sqLiteDatabase.execSQL(createTable);
+
     }
 
     @Override
@@ -95,8 +105,44 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_CHAINS);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ACHIEVEMENTS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_WIDGETS);
         onCreate(sqLiteDatabase);
     }
+
+    //METHODS FOR INTERACTING WITH THE WIDGET-DATABASE
+    public void addWidget(int widgetId, int chainId){
+        Log.d("AddWidget", "Widget: " + widgetId + " added to chain: " + chainId);
+        ContentValues values = new ContentValues();
+        values.put(KEY_WIDGETID, widgetId);
+        values.put(KEY_CHAINID, chainId);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(TABLE_WIDGETS, null, values);
+        db.close();
+    }
+
+    public Chain getWidgetChain(int widgetId){
+        Log.d("GetWidgetChain", "WidgetID: " + widgetId);
+
+        if(widgetId == 0)
+            return null;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(TABLE_WIDGETS, new String[]{KEY_WIDGETID,KEY_CHAINID}, KEY_WIDGETID + "=?",
+                new String[]{String.valueOf(widgetId)}, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            int chainId = cursor.getInt(1);
+            Chain chain = getChain(chainId);
+            return chain;
+        }
+
+        return null;
+    }
+
+
+
+
+
 
     //METODS FOR INTERACTING WITH USER-DATABASE
 
@@ -233,6 +279,18 @@ public class DBHelper extends SQLiteOpenHelper {
             Log.d("getChains.Error", "Chain length == 0?");
         }
         return chains;
+    }
+
+    public Chain getChain(int chainId){
+        Log.d("GetChain", "ChainID: " + chainId);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_CHAINS, new String[]{KEY_CHAINID, KEY_CHAINNAME, KEY_CHAINDESC, KEY_CHAINMINUTES, KEY_CHAINCOMBO, KEY_MUSTCHAINSETTING,
+                        KEY_MINUTESTODAY, KEY_CHAINPRIORITY, KEY_CHAINXP, KEY_LASTUPDATE}, KEY_CHAINID + "=?",
+                new String[]{String.valueOf(chainId)}, null, null, null, null);
+
+        if(cursor.moveToFirst())
+            return createChainFromCursor(cursor);
+        return null;
     }
 
     //update a single chain

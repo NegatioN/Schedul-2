@@ -1,7 +1,9 @@
 package main.schedul.joakim.schedul2;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +29,8 @@ public class ConfigureWidget extends Activity {
     private int widgetID;
     private int chainID = -1;
 
+    public static final String CHAIN_DB_ID = "DB_CHAIN_ID";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +42,12 @@ public class ConfigureWidget extends Activity {
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             widgetID = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+            Log.d("ConfigWidget", "WidgetID: " + widgetID);
         }
 
-        AppWidgetManager widgetManager = AppWidgetManager.getInstance(config);
+        final AppWidgetManager widgetManager = AppWidgetManager.getInstance(config.getApplicationContext());
 
-        RemoteViews views = new RemoteViews(config.getPackageName(),R.layout.widget_layout);
+        final RemoteViews views = new RemoteViews(config.getPackageName(),R.layout.widget_layout);
         //config spinner for choosing the user to get a chain from.
         final Spinner spinner = (Spinner) findViewById(R.id.spinner_users);
 
@@ -75,6 +80,7 @@ public class ConfigureWidget extends Activity {
                 //if the arraylists already are populated. Clear them
                 entriesChains.clear();
                 entryValuesChains.clear();
+                chainID = -1;
                 //get selected userId and querys db.
                 int selectedUserId = entryValues.get(spinner.getSelectedItemPosition());
 
@@ -98,13 +104,48 @@ public class ConfigureWidget extends Activity {
             public void onClick(View view) {
                 //gets the selected spinner-value from our chain-spinner, and find the db primary key for this item.
                 chainID = entryValuesChains.get(chainSpinner.getSelectedItemPosition());
+                Log.d("ConfigWidget", "ChainID: " + chainID);
 
                 if(chainID != -1) {
+                    ComponentName thisWidget = new ComponentName(config, WidgetBroadcaster.class);
+
+                    Log.d("ConfigWidget", "Creating Intents");
+                    DBHelper db = new DBHelper(config);
+
+                    //get db-value assigned to the widget.
+                    Chain chain = db.getChain(chainID);
+
+                    //adds the widget to the database so we can lookup the chain associated with it
+                    db.addWidget(widgetID, chain.getId());
+
+                    // Register an onClickListener
+                    RemoteViews remoteViews = new RemoteViews(config.getPackageName(),R.layout.widget_layout);
+
+                    // Set the text
+                    remoteViews.setTextViewText(R.id.tv_widget, chain.getName());
+
+                    remoteViews.setInt(R.id.tv_widget, "setBackgroundColor", chain.getDisplayColor());
+
+                    Intent intent = new Intent();
+                    intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetID);
+
+                    PendingIntent pi = PendingIntent.getBroadcast(config.getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    remoteViews.setOnClickPendingIntent(R.id.tv_widget, pi);
+
+                    widgetManager.updateAppWidget(widgetID, remoteViews);
+
+
+
+                    // create some random data
+                    //TODO pendingintent alertdialog with chain from db, call update on chain
+
 
                     //TODO send chain-id as extra, update view with info from chain
 
                     //end this onclick
                     Intent resultValue = new Intent();
+                    resultValue.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
                     resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetID);
                     setResult(RESULT_OK, resultValue);
                     finish();
