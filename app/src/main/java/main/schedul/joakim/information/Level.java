@@ -1,5 +1,9 @@
 package main.schedul.joakim.information;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+
 /**
  * Created by NegatioN on 22.09.2014.
  */
@@ -25,11 +29,21 @@ public class Level {
     }
 
 
-    public void passInExperience(int experience){
+    public void passInExperience(int experience, Context context){
         //add experience
         levelXp+=experience;
-        if(isLevel())
+        int previousLevel = level;
+        if(isLevel()) {
             //TODO some sort of animation for level-up
+            AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle("Gratulerer!").setMessage("Du gikk fra level " + previousLevel + " til " + level + "\nStå på!");
+            builder.setNeutralButton("Woho!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.show();
+        }
         return;
 
     }

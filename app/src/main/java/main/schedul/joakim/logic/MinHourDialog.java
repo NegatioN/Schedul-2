@@ -73,7 +73,7 @@ public class MinHourDialog extends SimpleDialogFragment{
                     int totalMins = 60 * hoursSelected + minutesSelected;
 
                     if(!chain.getExperience().daySpent(staticuser.getUserChains(), totalMins)){
-                        chain.doTask(totalMins, staticuser);
+                        chain.doTask(totalMins, staticuser, fa);
                         updateUserText(staticuser, fa);
                     }else{
 

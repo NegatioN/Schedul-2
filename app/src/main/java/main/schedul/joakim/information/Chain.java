@@ -1,5 +1,6 @@
 package main.schedul.joakim.information;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.text.format.Time;
 import android.util.Log;
@@ -79,7 +80,7 @@ public class Chain {
     /*
         when user adds a task to current chain we calculate all stats
          */
-    public void doTask(int minutes, User user){
+    public void doTask(int minutes, User user, Context context){
         if(isChained()) {
             Time t = new Time();
             t.setToNow();
@@ -98,7 +99,7 @@ public class Chain {
         Log.d("doTask.XP", "XP: " + taskXp);
         totalMins+=minutes;
         minutesSpentToday += minutes;
-        user.updateLevel(taskXp);
+        user.updateLevel(taskXp, context);
 
         //set lastupdated to now
         Time t = new Time();

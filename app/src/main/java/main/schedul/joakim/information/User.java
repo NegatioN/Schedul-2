@@ -1,5 +1,7 @@
 package main.schedul.joakim.information;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,8 +109,8 @@ public class User {
         return lvl;
     }
 
-    public void updateLevel(int experience){
-        lvl.passInExperience(experience);
+    public void updateLevel(int experience, Context context){
+        lvl.passInExperience(experience, context);
     }
 
     public List<Chain> getUserChains() {
