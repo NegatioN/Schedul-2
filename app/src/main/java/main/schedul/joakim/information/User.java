@@ -5,6 +5,8 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.schedul.joakim.Databases.DBHelper;
+
 /**
  * Created by NegatioN on 22.09.2014.
  */
@@ -121,9 +123,13 @@ public class User {
     }
 
     //resets minutes spent today on each chain
-    public void setNewday(){
+    public void setNewday(Context context){
+
+        DBHelper db = new DBHelper(context);
+
         for(Chain chain : userChains){
             chain.setMinutesSpentToday(0);
+            db.updateChain(chain);
         }
     }
 }

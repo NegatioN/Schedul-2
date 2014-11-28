@@ -50,18 +50,24 @@ public class Schedul extends FragmentActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         int dbPrimaryKey = Integer.parseInt(preferences.getString(SettingsActivity.LIST_PREF_KEY, "-1"));
 
-        String compareDay = preferences.getString(CURRENT_DAY_PREF, "0000.00.00");
-
-        if(isNewDay(compareDay, preferences))
-            CURRENTUSER.setNewday();
 
         if(CURRENTUSER.getId() != dbPrimaryKey ){
             CURRENTUSER = db.getEntireUser(dbPrimaryKey);
             Log.d("Schedul.init", "Name: " + CURRENTUSER.getName());
+
             updateUserText();
 
         }
         if(CURRENTUSER != null) {
+
+            //has it been more than one day since this user connected to the app?
+            String compareDay = preferences.getString(CURRENT_DAY_PREF+CURRENTUSER.getId(), "0000.00.00");
+
+            if(isNewDay(compareDay, preferences)) {
+                Log.d("Schedul.isNewday", "Newday == true");
+                CURRENTUSER.setNewday(this);
+            }
+
             ListView lvChains = (ListView) findViewById(R.id.lvChains);
             Log.d("Schdul.onResume", "Right before chainAdapter oncreate onpause");
             lvChains.setAdapter(new ChainListAdapter(this, CURRENTUSER.getUserChains(), CURRENTUSER));
@@ -219,15 +225,17 @@ public class Schedul extends FragmentActivity {
         int compareMonth = Integer.parseInt(compareday.substring(5,7));
         int compareDay = Integer.parseInt(compareday.substring(8,10));
 
-        if(compareYear > t.year){
+        Log.d("Schedul.isNewDay", "Today: " + t.year + "." + t.month + "." + t.monthDay + "\nPreference-date: " + compareYear + "." + compareMonth + "." + compareDay);
+
+        if(compareYear < t.year){
             preferences.edit().putString(CURRENT_DAY_PREF, t.year + "." + t.month + "." + t.monthDay).commit();
             return true;
         }else if( compareYear == t.year){
-            if(compareMonth > t.month){
+            if(compareMonth < t.month){
                 preferences.edit().putString(CURRENT_DAY_PREF, t.year + "." + t.month + "." + t.monthDay).commit();
                 return true;
             }else if(compareMonth == t.month){
-                if(compareDay > t.monthDay) {
+                if(compareDay < t.monthDay) {
                     preferences.edit().putString(CURRENT_DAY_PREF, t.year + "." + t.month + "." + t.monthDay).commit();
                     return true;
                 }
