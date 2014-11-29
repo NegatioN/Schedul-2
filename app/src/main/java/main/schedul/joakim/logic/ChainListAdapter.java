@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -68,7 +69,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         //get all views for the row in our list
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.row_layout,parent, false);
+        final View rowView = inflater.inflate(R.layout.row_layout,parent, false);
         TextView name = (TextView) rowView.findViewById(R.id.tvName);
         TextView xp = (TextView) rowView.findViewById(R.id.tvTotalXp);
         TextView hours = (TextView) rowView.findViewById(R.id.tvTotalHours);
@@ -101,11 +102,20 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         rowView.setBackground(layerDrawable);
      //   rowView.setBackgroundColor(selectedChain.getDisplayColor());
 
+        final Drawable onPressedDrawable = resources.getDrawable(R.drawable.alt_row_drawable_pressed);
+
+        rowView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.setBackground(onPressedDrawable);
+                return false;
+            }
+        });
 
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                displayMinuteDialog(selectedChain, user);
+                displayMinuteDialog(selectedChain, view, layerDrawable);
             }
         });
 
@@ -113,8 +123,9 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         rowView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                displayEditDialog(selectedChain, user);
-                return false;
+                displayEditDialog(selectedChain, view, layerDrawable);
+                view.setBackground(layerDrawable);
+                return true;
             }
         });
 
@@ -127,14 +138,14 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
 
 
     //displays our dialog with minute/hour input for the current chain
-    private void displayMinuteDialog(Chain selectedChain, User user){
-        showTimePicker(selectedChain);
+    private void displayMinuteDialog(Chain selectedChain, View view, LayerDrawable layerDrawable){
+        showTimePicker(selectedChain, view, layerDrawable);
 
        // this.notifyDataSetChanged();
 
     }
     //displays a dialog that lets us edit our currently selected chain
-    private void displayEditDialog(final Chain selectedChain, User user){
+    private void displayEditDialog(final Chain selectedChain, final View parentView, final LayerDrawable layerDrawable){
 
         //used for access in inner class
         final ChainListAdapter cla = this;
@@ -172,6 +183,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
                     db.updateChain(chain);
                     cla.notifyDataSetChanged();
                     updateUserText(Schedul.CURRENTUSER, context);
+                    parentView.setBackground(layerDrawable);
                 }
             }
         });
@@ -179,13 +191,17 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+                parentView.setBackground(layerDrawable);
             }
+
         });
         dialog.show();
+
+        parentView.setBackground(layerDrawable);
     }
 
 
-    private void showTimePicker(final Chain chain){
+    private void showTimePicker(final Chain chain, final View parentView, final LayerDrawable layerDrawable){
         final ChainListAdapter cla = this;
 
         LayoutInflater inflater = ((Activity)context).getLayoutInflater();
@@ -205,7 +221,6 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
                 int hoursSelected = hours.getValue();
                 int minutesSelected = minutes.getValue();
 
-
                 //not both counters at zero
                 if((hoursSelected + minutesSelected) > 0) {
                     int totalMins = 60 * hoursSelected + minutesSelected;
@@ -220,6 +235,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
+
                             }
                         }).show();
                     }
@@ -245,6 +261,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         });
         dialog.show();
 
+        parentView.setBackground(layerDrawable);
     }
 
 
