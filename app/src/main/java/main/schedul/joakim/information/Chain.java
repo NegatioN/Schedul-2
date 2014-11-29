@@ -248,10 +248,10 @@ public class Chain {
         int percentage = 100 - getPercentageTimeout();
         //if at 0%, return a grey color to overlay.
         if(percentage == 0)
-            return HSVToColor(100, 0, 15);
+            return HSVToColor(100, 0, 0.50f);
         float hue = (float)Math.floor(percentage * 120 / 100);
 
-        return HSVToColor(hue, 80, 90);
+        return HSVToColor(hue, 0.80f, 0.65f);
     }
 
     //method for easy input of hue, saturation and value

@@ -23,7 +23,6 @@
     <CheckBox
         android:id="@+id/check_reset"
         android:text="@string/reset_button"
-        android:textColor="@color/headerText"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/daysEditSpinner"></CheckBox>

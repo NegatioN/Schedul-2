@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,8 +56,13 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Resources resources = context.getResources();
+        //Drawable drawable = context.getResources().getDrawable(R.drawable.schedul_row);
+        //drawable == bottom drawable
+        Drawable drawable =resources.getDrawable(R.drawable.alt_row_drawable);
+        Drawable topDrawable = resources.getDrawable(R.drawable.alt_row_drawable);
 
-        Drawable drawable = context.getResources().getDrawable(R.drawable.schedul_row);
+
 
         final Chain selectedChain = chains.get(position);
         Log.d("Inflate.GetView", "Chainview at pos: " + position + "created");
@@ -68,16 +75,29 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         TextView xp = (TextView) rowView.findViewById(R.id.tvTotalXp);
         TextView hours = (TextView) rowView.findViewById(R.id.tvTotalHours);
 
+        //gets the color of the chain in regards to how long it is from timing out it's combo.
+        int progressColor = selectedChain.getDisplayColor();
 
         //define information in the views
         name.setText(selectedChain.getName());
+        name.setTextColor(progressColor);
         xp.setText(EXPERIENCE + selectedChain.getCurrentExperience());
         hours.setText(HOURS + selectedChain.getTotalHours());
 
         //sets the color of the view based on how far it is from expiring
         //mutates the drawable so we can still share bitmap-resource, but color-states are not shared.
-        drawable.setColorFilter(selectedChain.getDisplayColor(), PorterDuff.Mode.MULTIPLY);
-        rowView.setBackground(drawable);
+        drawable.setColorFilter(progressColor, PorterDuff.Mode.MULTIPLY);
+
+        //define layerdrawable
+        Drawable[] drawables = {drawable,topDrawable};
+        LayerDrawable layerDrawable = new LayerDrawable(drawables);
+        //set insets for the drawables
+        //index, left, top, right, bottom pixel inserts. Creates the illusion of shadow in the progressColor on our row.
+        layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+        layerDrawable.setLayerInset(1, 0, 0, 0, 4);
+
+
+        rowView.setBackground(layerDrawable);
      //   rowView.setBackgroundColor(selectedChain.getDisplayColor());
 
 

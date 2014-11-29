@@ -12,10 +12,10 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-    <style name="rowLayout">
+    <style name="rowLayout" parent="android:Theme.Holo.Light">
         <item name="android:cacheColorHint">@android:color/transparent</item>
         <item name="android:divider">@android:color/transparent</item>
-        <item name="android:dividerHeight">0dp</item>
+        <item name="android:dividerHeight">5dp</item>
     </style>
 
     <style name="mainHeader">
@@ -24,5 +24,6 @@
     <style name="button">
         <item name="android:background">@drawable/schedul_button</item>
     </style>
+
 
 </resources>

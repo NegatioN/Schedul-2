@@ -29,8 +29,6 @@ public class ConfigureWidget extends Activity {
     private int widgetID;
     private int chainID = -1;
 
-    public static final String CHAIN_DB_ID = "DB_CHAIN_ID";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -59,6 +59,7 @@
         android:id="@+id/lvChains"
         android:layout_below="@id/menuContainer"
         android:layout_above="@+id/botContainer"
+        style="@style/rowLayout"
          />
 
     <RelativeLayout
