@@ -97,10 +97,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         layerDrawable.setLayerInset(0, 0, 0, 0, 0);
         layerDrawable.setLayerInset(1, 0, 0, 0, 4);
 
-
-
         rowView.setBackground(layerDrawable);
-     //   rowView.setBackgroundColor(selectedChain.getDisplayColor());
 
         final Drawable onPressedDrawable = resources.getDrawable(R.drawable.alt_row_drawable_pressed);
 
@@ -300,6 +297,5 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
         mp.setFocusable(true);
         mp.setFocusableInTouchMode(true);
     }
-
 
 }

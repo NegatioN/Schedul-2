@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import main.schedul.joakim.Databases.DBHelper;
 import main.schedul.joakim.information.Chain;
@@ -30,7 +32,22 @@ public class CreateChain extends FragmentActivity {
 
         //define views
         spinner = (Spinner) findViewById(R.id.daysSpinner);
+
+        final int textcolor = getResources().getColor(R.color.darkgrayText);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(textcolor);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         editText = (EditText) findViewById(R.id.etName);
+
+
         createButton = (Button) findViewById(R.id.btnCreate);
 
         final CreateChain context = this;
@@ -105,4 +122,8 @@ public class CreateChain extends FragmentActivity {
         }
     }
 
+
+
+
 }
+
