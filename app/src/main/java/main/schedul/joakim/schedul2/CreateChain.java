@@ -62,22 +62,36 @@ public class CreateChain extends FragmentActivity {
                 Log.d("CreateChain", "How often to chain: " + days + " days.");
                 String name = editText.getText().toString();
 
+                boolean emptyText = isEmpty(editText);
+                boolean tooLongText = isTooLong(editText);
                 //has user entered a name yet?
-                if(!isEmpty(editText)) {
+                if(!emptyText && !tooLongText) {
                     createChain(name, name, 2, days);
 
                     //after creating chain, go back to main screen.
                     finish();
                 }else{
                     //SimpleDialogFragment.createBuilder(context, getSupportFragmentManager()).setMessage(R.string.create_error_message).show();
-                    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                    dialogBuilder.setMessage("Vennligst skriv inn et navn for lenken din.");
-                    dialogBuilder.setNeutralButton("Lukk", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    }).show();
+                    if(emptyText) {
+                        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                        dialogBuilder.setMessage("Vennligst skriv inn et navn for lenken din.");
+                        dialogBuilder.setNeutralButton("Lukk", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+                    }
+                    else{
+                        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                        dialogBuilder.setMessage("Vennligst bruk et kortere navn på lenken");
+                        dialogBuilder.setNeutralButton("Lukk", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+                    }
                 }
             }
         });
@@ -123,6 +137,15 @@ public class CreateChain extends FragmentActivity {
             return false;
         } else {
             return true;
+        }
+    }
+
+    //checks if string is too long to fit well on screen
+    private boolean isTooLong(EditText etText){
+        if (etText.getText().toString().trim().length() > 18) {
+            return true;
+        }else{
+            return false;
         }
     }
 
