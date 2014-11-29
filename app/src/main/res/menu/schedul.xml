@@ -6,11 +6,13 @@
     <item
         android:id="@+id/action_newchain"
         android:title="@string/action_newchain"
+        android:icon="@drawable/ic_action_new_chain"
         android:orderInCategory="99"
         android:showAsAction="always"
         />
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
+        android:icon="@drawable/ic_action_name"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:showAsAction="always" />
 </menu>

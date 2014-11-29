@@ -11,8 +11,6 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +25,6 @@ public class Schedul extends FragmentActivity {
     public static User CURRENTUSER;
     private DBHelper db = new DBHelper(this);
     private boolean firstStart = true;
-    private static final String FIRST_START = "_START_KEY";
     public static final String CURRENT_DAY_PREF = "CURRENT_DAY";
 
 
@@ -98,26 +95,6 @@ public class Schedul extends FragmentActivity {
 
         //TODO add achievements from user
 
-        //new chains-button setup
-        Button newChainButton = (Button) findViewById(R.id.b_newChain);
-        newChainButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), CreateChain.class);
-                startActivity(i);
-            }
-        });
-
-        //settings-button setup
-        Button settingsButton = (Button) findViewById(R.id.b_settings);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), SettingsLoadActivity.class);
-                startActivity(i);
-            }
-        });
-
 
 
     }
@@ -128,13 +105,6 @@ public class Schedul extends FragmentActivity {
         super.onPause();
         if(CURRENTUSER != null)
             db.updateUser(CURRENTUSER);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(FIRST_START, firstStart);
-        Log.d("onSave", "screen saved");
     }
 
 
@@ -171,7 +141,7 @@ public class Schedul extends FragmentActivity {
         alert.setTitle("Ingen brukere finnes");
         alert.setMessage("Hva heter du?");
 
-// Set an EditText view to get user input
+    // Set an EditText view to get user input
         final EditText input = new EditText(this);
         alert.setView(input);
 

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Schedul 2</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Schedul</string>
     <string name="action_settings">Settings</string>
     <string name="action_newchain">New Chain</string>
-    <string name="title_activity_create_chain">CreateChain</string>
+    <string name="title_activity_create_chain">Lag Lenke</string>
     <string name="minhour_title">Select Time Spent</string>
     <string name="enter_name">Skriv et navn for lenken</string>
-    <string name="spinner_header">Utfør lenken hver X dag: </string>
+    <string name="spinner_header">Hvor ofte vil du utføre lenken?</string>
     <string name="create_chain_button">Lag lenke</string>
     <string name="enter_settings">Innstillinger</string>
     <string name="tv_days">Lenk hver: </string>
     <string name="create_error_message">Please enter a name for your chain.</string>
     <string name="text_username_title">Username</string>
-    <string name="title_settings_fragment">Settings</string>
+    <string name="title_settings_fragment">Innstillinger</string>
     <string name="list_pref_choose_user">Velg bruker</string>
     <string name="selected_user_summary">Valgt bruker: </string>
     <string name="go_back">Gå tilbake</string>

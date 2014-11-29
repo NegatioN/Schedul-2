@@ -2,17 +2,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Schedul">
+    tools:context=".Schedul"
+    android:background="@color/mainbackground">
+
+
+    <ListView
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvChains"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/menuContainer"
+        style="@style/rowLayout"
+         />
+
     <RelativeLayout
         android:id="@+id/menuContainer"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:gravity="center_vertical"
-        style="@style/mainHeader"
+        android:background="@drawable/header_drawable_bottom"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
+
+        android:layout_alignParentBottom="true"
 
         >
         <!-- Sum of textfields + button must == 480dpi? for Nexus S-->
@@ -47,46 +67,6 @@
             android:gravity="end"
             />
 
-    </RelativeLayout>
-
-    <ListView
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/lvChains"
-        android:layout_below="@id/menuContainer"
-        android:layout_above="@+id/botContainer"
-        style="@style/rowLayout"
-         />
-
-    <RelativeLayout
-        android:id="@+id/botContainer"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/header_drawable_bottom"
-        android:layout_alignParentBottom="true"
-        >
-        <Button
-            android:id="@+id/b_newChain"
-            android:layout_width="100dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:text="Lag lenke"
-            android:layout_margin="1.5dp"
-            android:textSize="17sp"
-            style="@style/button"/>
-        <Button
-            android:id="@+id/b_settings"
-            android:layout_width="100dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:text="@string/enter_settings"
-            android:layout_margin="1.5dp"
-            android:textSize="17sp"
-            style="@style/button"/>
     </RelativeLayout>
 
 </RelativeLayout>

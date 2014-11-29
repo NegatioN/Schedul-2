@@ -57,9 +57,7 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Resources resources = context.getResources();
-        //Drawable drawable = context.getResources().getDrawable(R.drawable.schedul_row);
-        //drawable == bottom drawable
-        Drawable drawable =resources.getDrawable(R.drawable.alt_row_drawable);
+        final Drawable drawable =resources.getDrawable(R.drawable.alt_row_drawable);
         Drawable topDrawable = resources.getDrawable(R.drawable.alt_row_drawable);
 
 
@@ -90,11 +88,14 @@ public class ChainListAdapter extends ArrayAdapter<Chain>{
 
         //define layerdrawable
         Drawable[] drawables = {drawable,topDrawable};
-        LayerDrawable layerDrawable = new LayerDrawable(drawables);
+        final LayerDrawable layerDrawable = new LayerDrawable(drawables);
+
+
         //set insets for the drawables
         //index, left, top, right, bottom pixel inserts. Creates the illusion of shadow in the progressColor on our row.
         layerDrawable.setLayerInset(0, 0, 0, 0, 0);
         layerDrawable.setLayerInset(1, 0, 0, 0, 4);
+
 
 
         rowView.setBackground(layerDrawable);
