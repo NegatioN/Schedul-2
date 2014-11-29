@@ -52,6 +52,7 @@
         android:layout_height="45dp"
         android:background="@drawable/header_drawable_bottom"
         android:layout_alignParentBottom="true"
+        android:padding="3dp"
         >
     <Button
         android:id="@+id/btnCreate"

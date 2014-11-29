@@ -3,6 +3,7 @@
     tools:context="main.schedul.joakim.schedul2.CreateChain" >
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
+        android:icon="@drawable/ic_action_name"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:showAsAction="always" />
 </menu>
