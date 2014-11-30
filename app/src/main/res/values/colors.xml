@@ -4,7 +4,7 @@
     <color name="black">#000000</color>
     <color name="headerColor">#292929</color>
     <color name="headerText">#FFFFFF</color>
-    <color name="mainbackground">#F5F5F5</color>
+    <color name="mainbackground">#F0F0F0</color>
     <color name="dividerColor">#41B1D6</color>
     <color name="grayText">#A0A0A0</color>
     <color name="darkgrayText">#737373</color>
