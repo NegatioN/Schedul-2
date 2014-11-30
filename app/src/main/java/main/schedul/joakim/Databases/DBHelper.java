@@ -271,7 +271,6 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d("getChains.Start", "Chain-getting started");
 
         if(cursor.moveToFirst()) {
-            chains.add(createChainFromCursor(cursor));
             do {
                 //add to chains
                 chains.add(createChainFromCursor(cursor));

@@ -150,6 +150,7 @@ public class Schedul extends FragmentActivity {
                 String value = input.getText().toString();
                 CURRENTUSER = new User(value);
                 int id = db.addUser(CURRENTUSER);
+                CURRENTUSER = db.getEntireUser(id);
                 updateUserText();
                 /*
                 //creates the listview after user-creation
