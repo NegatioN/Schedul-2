@@ -242,7 +242,7 @@ public class Chain {
         return percentage;
     }
 
-    //for setting background-color of widgets or listitems depending on how far the chain is from timing out.
+    //for setting colorfilter of widgets or listitems depending on how far the chain is from timing out.
     //gets a color from green to red depending on the state of the chain.
     public int getDisplayColor(){
         int percentage = 100 - getPercentageTimeout();
