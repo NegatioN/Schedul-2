@@ -24,16 +24,11 @@ public class Schedul extends FragmentActivity {
 
     public static User CURRENTUSER;
     private DBHelper db = new DBHelper(this);
-    private boolean firstStart = true;
     public static final String CURRENT_DAY_PREF = "CURRENT_DAY";
 
 
-    //TODO make icon for app
     //TODO add all strings to strings.xml
-    //TODO add save variables for screen tilt alertdialog.
     //TODO add additional settings?
-    //TODO Create widgets for chains.
-    //TODO make style for buttons
 
     //called on every screen-update
     @Override
@@ -78,19 +73,17 @@ public class Schedul extends FragmentActivity {
         setContentView(R.layout.activity_schedul);
 
 
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            int dbPrimaryKey = Integer.parseInt(preferences.getString(SettingsActivity.LIST_PREF_KEY, "-1"));
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int dbPrimaryKey = Integer.parseInt(preferences.getString(SettingsActivity.LIST_PREF_KEY, "-1"));
 
-            //if we didnt find a selected user-preference, create a new one.
-            if (dbPrimaryKey == -1) {
-                showUserCreateFragment();
-                firstStart = false;
-            } else {
-                CURRENTUSER = db.getEntireUser(dbPrimaryKey);
-                Log.d("Schedul.init", "Name: " + CURRENTUSER.getName());
-                updateUserText();
-            }
-            firstStart = false;
+        //if we didnt find a selected user-preference, create a new one.
+        if (dbPrimaryKey == -1) {
+            showUserCreateFragment();
+        } else {
+            CURRENTUSER = db.getEntireUser(dbPrimaryKey);
+            Log.d("Schedul.init", "Name: " + CURRENTUSER.getName());
+            updateUserText();
+        }
 
 
         //TODO add achievements from user
@@ -111,9 +104,9 @@ public class Schedul extends FragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-          getMenuInflater().inflate(R.menu.schedul, menu);
+        getMenuInflater().inflate(R.menu.schedul, menu);
 
-          return true;
+        return true;
     }
 
     @Override
@@ -141,7 +134,7 @@ public class Schedul extends FragmentActivity {
         alert.setTitle("Ingen brukere finnes");
         alert.setMessage("Hva heter du?");
 
-    // Set an EditText view to get user input
+        // Set an EditText view to get user input
         final EditText input = new EditText(this);
         alert.setView(input);
 
@@ -200,21 +193,32 @@ public class Schedul extends FragmentActivity {
         Log.d("Schedul.isNewDay", "Today: " + t.year + "." + t.month + "." + t.monthDay + "\nPreference-date: " + compareYear + "." + compareMonth + "." + compareDay);
 
         if(compareYear < t.year){
-            preferences.edit().putString(CURRENT_DAY_PREF, t.year + "." + t.month + "." + t.monthDay).commit();
+            updatePreferenceDate(t, preferences);
             return true;
         }else if( compareYear == t.year){
             if(compareMonth < t.month){
-                preferences.edit().putString(CURRENT_DAY_PREF, t.year + "." + t.month + "." + t.monthDay).commit();
+                updatePreferenceDate(t, preferences);
                 return true;
             }else if(compareMonth == t.month){
                 if(compareDay < t.monthDay) {
-                    preferences.edit().putString(CURRENT_DAY_PREF, t.year + "." + t.month + "." + t.monthDay).commit();
+                    updatePreferenceDate(t, preferences);
                     return true;
                 }
             }
         }
 
         return false;
+    }
+
+    //updates the preferences. Takes into consideration single-digit months and days.
+    private void updatePreferenceDate(Time time, SharedPreferences preferences){
+        String monthString = String.valueOf(time.month);
+        if(monthString.length() == 1)
+            monthString = "0"+monthString;
+        String dayString = String.valueOf(time.monthDay);
+        if(dayString.length() == 1)
+            dayString = "0"+dayString;
+        preferences.edit().putString(CURRENT_DAY_PREF+CURRENTUSER.getId(), time.year + "." + monthString + "." + dayString).commit();
     }
 
 }

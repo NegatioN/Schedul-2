@@ -12,6 +12,7 @@ import main.schedul.joakim.schedul2.Schedul;
 /**
  * Created by NegatioN on 21.09.2014.
  * The class represents a single user-defined chain that can generate experience based on doing the defined task.
+ * These are the main component of the application,
  */
 public class Chain {
 
@@ -62,7 +63,20 @@ public class Chain {
         lastUpdated = fillerTime;
     }
 
-    //database constructor
+    /**
+     * Database-constructor
+     * @param chainid the id of the chain in the database
+     * @param name name of the chain
+     * @param description description of the chain
+     * @param priority priority of the chain (currently not implemented)
+     * @param mustChainDays What the number of days we can "chain" this task within. ex. input 1 for every day. or 2 for every other day
+     * @param chainminutes How much time has the user logged in this chain? ex. chain contains 1 day, 3 hours of logged time. output in minutes.
+     * @param chaincombo how many days (depending on mustchaindays-setting) has the user kept this chain going without breaking the combo?
+     * @param minstoday Tells us how much time has been logged today by the user.
+     * @param lastUpdated Tells us when the chain was last updated, in the form of a Time-object
+     * @param experience Tells us how much experience has been logged into this chain.
+     * @see android.text.format.Time
+     */
     public Chain(int chainid, String name,  String description, int priority, int mustChainDays, int chainminutes, int chaincombo, int minstoday, Time lastUpdated, int experience){
         this.chainid = chainid;
         this.name = name;
@@ -77,9 +91,13 @@ public class Chain {
     }
 
 
-    /*
-        when user adds a task to current chain we calculate all stats
-         */
+    /**
+     * when user adds a task to current chain we calculate all stats
+     * @param minutes How many minutes the task took
+     * @param user the user who did the task
+     * @param context context of the application
+     * @see android.content.Context
+     */
     public void doTask(int minutes, User user, Context context){
         if(isChained()) {
             Time t = new Time();
@@ -107,8 +125,11 @@ public class Chain {
         lastUpdated = t;
     }
 
-
-    //is the task chained to it's last execution?
+    /**
+     * When calling this method, is the combo chained to the previous executed task?
+     * Depends on the users settings of "mustChainDays"
+     * @return Returs true if the task is comboed, false if not.
+     */
     private boolean isChained(){
         Time t = new Time();
         t.setToNow();
@@ -121,7 +142,9 @@ public class Chain {
         return true;
     }
 
-    //resets the info that has been inputted today for this chain.
+    /**
+     *   resets the info that has been inputted today for this chain.
+     */
     public void resetToday(){
         if(currentChain != 0)
             currentChain--;
@@ -204,6 +227,10 @@ public class Chain {
         return chainid;
     }
 
+    /**
+     * Formats our total hours in double-form to a string
+     * @return formatted text-string of minutes with double digit prescision
+     */
     public String getTotalHours(){
         DecimalFormat df = new DecimalFormat("0.00");
         double hours = Double.parseDouble(getTotalMins()+"") / 60;
@@ -212,11 +239,18 @@ public class Chain {
 
     }
 
+    /**
+     * adds this chain to a user
+     * @param user user to add this chain to.
+     */
     public void addChainToUser(User user){
         user.getUserChains().add(this);
     }
 
-    //has our chain already been
+    /**
+     * If this chain has already been updated today will return true
+     * @return returns true if updated today.
+     */
     public boolean isUpdatedToday(){
         Time today = new Time();
         today.setToNow();
@@ -226,8 +260,10 @@ public class Chain {
            return false;
     }
 
-    //returns the progress untill the chains times out and resets to 0 chain-combo
-    //0% for newly updated, 100% for "done"
+    /**
+     * returns the progress untill the chains times out and resets zero combo-counter
+     * @return 0% for newly updated, 100% for timed out
+     */
     private int getPercentageTimeout(){
         Time t = new Time();
         t.setToNow();
@@ -242,8 +278,11 @@ public class Chain {
         return percentage;
     }
 
-    //for setting colorfilter of widgets or listitems depending on how far the chain is from timing out.
-    //gets a color from green to red depending on the state of the chain.
+    /**
+     * for setting colorfilter of widgets or listitems depending on how far the chain is from timing out.
+     * gets a color from green to red depending on the state of the chain.
+     * @return Color int in HSV-format.
+     */
     public int getDisplayColor(){
         int percentage = 100 - getPercentageTimeout();
         //if at 0%, return a grey color to overlay.
@@ -254,7 +293,14 @@ public class Chain {
         return HSVToColor(hue, 0.80f, 0.65f);
     }
 
-    //method for easy input of hue, saturation and value
+    /**
+     * method for easy input of hue, saturation and value
+     * helper-method to getDisplayColor
+     * @param pHue  Defines level of hue. 0-360 but uses float value of 1.0f as max
+     * @param pSaturation defines level of saturation. 0-100 uses float value of 1.0f as max
+     * @param pValue defines value of brightness. 0-100 uses float value of 1.0f as max
+     * @return
+     */
     private  static int HSVToColor(final float pHue, final float pSaturation, final float pValue) {
         float[] HSV_TO_COLOR = new float[3];
         HSV_TO_COLOR[HSV_TO_COLOR_HUE_INDEX] = pHue;

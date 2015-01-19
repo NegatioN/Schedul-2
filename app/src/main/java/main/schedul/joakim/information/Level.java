@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 
 /**
  * Created by NegatioN on 22.09.2014.
+ * A level object that's owned by each User of the app.
+ * Defines the rules for leveling up, and handles the logic to do so.
  */
 public class Level {
     private int level;
@@ -51,7 +53,7 @@ public class Level {
     public void removeExperience(int experience){
         levelXp -= experience;
         if(isLevelDown())
-            //DO SOMETHING
+            //TODO DO SOMETHING
         return;
     }
 

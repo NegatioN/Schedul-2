@@ -22,7 +22,7 @@ import main.schedul.joakim.information.User;
 /**
  * Created by NegatioN on 03.11.2014.
  * A class containing the definition of our entire database
- * The three tables are for Users, Chains and Achievements
+ * The four tables are for Users, Chains, widgets and Achievements
  */
 public class DBHelper extends SQLiteOpenHelper {
     private static final String NAME = "SchedulDB";
